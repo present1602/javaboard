@@ -86,7 +86,7 @@ public class MemberController {
 			
 			session.setAttribute("memberSid", memberVO.getSid());
 			session.setAttribute("memberImage", memberVO.getProfile_image());
-			session.setAttribute("memberName", memberVO.getUsername());
+			session.setAttribute("memberNick", memberVO.getNick());
 			
 			mav.setViewName("redirect:/board");
 		}

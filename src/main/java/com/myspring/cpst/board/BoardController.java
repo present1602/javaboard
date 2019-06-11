@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +54,9 @@ import com.myspring.cpst.member.MemberVO;
 
 public class BoardController {
 	private static final String UPLOAD_REPO = "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/post";
+	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	@Autowired
 	private BoardDAO boardDAO;
@@ -97,16 +102,38 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/{postNum}/write_comment")
-	public ModelAndView write_comment(@PathVariable int postNum) throws Exception {
-		System.out.println(" 1. postnum pathv ");
-		boardDAO.addHit(postNum);
-		BoardVO postVO = boardDAO.getPost(postNum);
-		System.out.println("4. Boardcontroller post-getTitle : " +  postVO.getTitle());
+	public CommentVO write_comment(@PathVariable int postNum, @RequestBody String  commentData, HttpServletRequest request) throws Exception {
+		System.out.println("1. write_comment pathv ");
+		System.out.println("2. postNum : " + postNum);
+		System.out.println("3. commentData : " + commentData);
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("post_layer");
-		mav.addObject("post", postVO);
-		return mav;
+		Map<String,Object> commentMap = new HashMap<String, Object>();
+		
+		commentMap.put("post", postNum);
+		commentMap.put("content", commentData);
+		int commentNum = getNewCommentNum();
+		commentMap.put("commentNum", commentNum);
+		
+		HttpSession session = request.getSession();
+		int writerSid = (Integer) session.getAttribute("memberSid");
+		String writerImage = (String) session.getAttribute("memberImage");
+		String writerNick = (String) session.getAttribute("memberNick");
+		
+		System.out.println("4. memberSid : " + writerSid);
+		System.out.println("4. memberImage : " + writerImage);
+		System.out.println("4. memberNick : " + writerNick);
+		
+		commentMap.put("writerSid", writerSid);
+		commentMap.put("writerImage", writerImage);
+		commentMap.put("writerNick", writerNick);
+		
+		System.exit(0);
+		
+		CommentVO commentVO = boardDAO.addComment(commentMap);
+		
+		
+		
+		return commentVO;
 	}
 	
 
@@ -213,4 +240,8 @@ public class BoardController {
 		return imageFileName;
 	}
 
+	private int getNewCommentNum() throws DataAccessException {
+		return sqlSession.selectOne("selectNewCommentNum");
+	}
+	
 }

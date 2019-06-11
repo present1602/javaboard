@@ -50,5 +50,22 @@
     ]]>
 	</update>
 	
+	<insert id="insertComment" parameterType="java.util.Map">
+		INSERT INTO CPST_COMMENT
+		(commentNum, content, post, writer, writerNick, writerImage)
+		VALUES
+		(#{commentNum}, #{content}, #{post}, ${writerSid}, #{writerImage}, #{writerNick})
+	</insert>
+	
+	<select id="selectComment">
+		select * from cpst_comment where commentNum = #{commentNum}
+	</select>
+	
+  <select id="selectNewCommentNum" resultType="int"  >
+		<![CDATA[
+			SELECT  max(commentNum)+1 from cpst_comment		
+		]]>
+	</select>
+	
 </mapper>
 

@@ -62,6 +62,18 @@ public class BoardDAO {
 		sqlSession.update("updateHit", postNum);
 	}
 
+	public CommentVO addComment(Map<String, Object> commentMap) {
+		int result = 0;
+		CommentVO commentVO = null;
+		result = sqlSession.insert("insertComment", commentMap);
+		
+		
+//		if(result == 1) {
+//			commentVO = sqlSession.selectOne("selectComment", commentMap.get(key));
+//		}
+		return commentVO;
+	}
+
 //	public MemberVO login(@MemberVO memberVO) {
 //		memberVO vo = sqlSession.selectOne("mapper.member.loginById",memberVO);
 //		return vo;

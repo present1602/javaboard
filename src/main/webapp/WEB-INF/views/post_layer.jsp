@@ -13,24 +13,26 @@ $(function() {
 });
 
 $(function() {
+	var curUrl = window.location.href; 
+	var postNum = document.getElementById("post_num").value;
     $("#reply_button").on("click", function() {
-        $.ajax({
-            url : "/board/" + ${post.postNum} + "/write_comment",
+    	alert('버튼 클릭');
+       /*  $.ajax({
+            url : "/board/" + postNum + "/write_comment",
             data : {
                 commentContent : $("#commentContent").val()
             },
            
             success : function(data) {
-                if (data.result == 1) {
-                    console.log("comment가 정상적으로 입력되었습니다.");
-                    $("#commentContent").val("");
-                    showHtml(data.comments, 1);
-                }
-            }
+                alert("comment ajax suc");
+                alert("data : " + data);
+            },
+            
             error : function(err) {
+            	alert("comment ajax err");
                 alert(JSON.stringify(err));
             }
-        })
+        }) */
     });
 });
 
@@ -47,6 +49,7 @@ $(function() {
                 
                 <div class="clear"></div>
         	</div>
+        	<input type="text" id="post_num" value=${post.postNum}>
         	<p class="cpstalk_title">${post.title }</p>
         	<p class="cpstalk_text">${post.content }</p>
         	<p class="info_tag"><a href="#"><span class="tag">#황금연휴</span></a><a href="#"><span class="tag">#해외여행</span></a>
