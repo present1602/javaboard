@@ -36,6 +36,7 @@ public class BoardDAO {
 
 	public BoardVO getPost(int postNum) throws DataAccessException{
 		System.out.println("2. boarddao.java getpost - postNum : " + postNum);
+		
 		BoardVO post = sqlSession.selectOne("selectPost", postNum);
 		System.out.println("3. boarddao.java - post.getTitle() : " + post.getTitle());
 		return post;
@@ -55,6 +56,10 @@ public class BoardDAO {
 		List<BoardVO> postlist = null;
 		postlist = sqlSession.selectList("selectAllPosts");
 		return postlist;
+	}
+
+	public void addHit(int postNum) {
+		sqlSession.update("updateHit", postNum);
 	}
 
 //	public MemberVO login(@MemberVO memberVO) {

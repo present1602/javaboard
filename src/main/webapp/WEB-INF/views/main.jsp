@@ -38,7 +38,7 @@
 						<img class="profile_main"
 							src="resources/images/profileimage_default.gif">
 						<p id="login_button">
-							<a href="#">로그인하기</a>
+							<a href="/member/login">로그인하기</a>
 						</p>
 						<p id="signup_button">
 							<a href="/member/signup">회원가입</a>

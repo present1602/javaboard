@@ -44,8 +44,11 @@
     ]]>
 	</select>
 	
-
+	<update id="updateHit">
+    <![CDATA[
+       update cpst_board set hit = hit + 1 where postNum = #{postNum}	
+    ]]>
+	</update>
 	
-
 </mapper>
 

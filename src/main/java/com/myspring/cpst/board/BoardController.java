@@ -86,10 +86,22 @@ public class BoardController {
 	@RequestMapping("/{postNum}")
 	public ModelAndView post(@PathVariable int postNum) throws Exception {
 		System.out.println(" 1. postnum pathv ");
+		boardDAO.addHit(postNum);
 		BoardVO postVO = boardDAO.getPost(postNum);
 		System.out.println("4. Boardcontroller post-getTitle : " +  postVO.getTitle());
-//		ModelAndView mav = new ModelAndView("main");
-//		mav.addObject("postlist", postlist);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("post_layer");
+		mav.addObject("post", postVO);
+		return mav;
+	}
+	
+	@RequestMapping("/{postNum}/write_comment")
+	public ModelAndView write_comment(@PathVariable int postNum) throws Exception {
+		System.out.println(" 1. postnum pathv ");
+		boardDAO.addHit(postNum);
+		BoardVO postVO = boardDAO.getPost(postNum);
+		System.out.println("4. Boardcontroller post-getTitle : " +  postVO.getTitle());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("post_layer");
