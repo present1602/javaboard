@@ -6,6 +6,7 @@
 
 <mapper namespace="com.myspring.cpst.member">
 
+
 	<insert id="insertMember" parameterType="java.util.Map">
 		INSERT INTO CPST_MEMBER
 		(sid, email, password, nick, username, phone, univ, major,
