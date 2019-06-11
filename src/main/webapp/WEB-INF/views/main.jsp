@@ -13,11 +13,6 @@
 <head>
   <meta charset="UTF-8">
   <title>메인 페이지</title>
-  
- 	<link href="<c:url value="/resources/css/common.css" />" rel="stylesheet">
- 	
-	<script src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>
-	<script src="<c:url value="/resources/js/basic.js" />"></script>
 </head>
 <body>
   <%@ include file="header.jsp" %>
@@ -46,7 +41,7 @@
 							<a href="#">로그인하기</a>
 						</p>
 						<p id="signup_button">
-							<a href="public/signup.html">회원가입</a>
+							<a href="/member/signup">회원가입</a>
 						</p>
 
 					</c:otherwise>
@@ -57,7 +52,7 @@
 		<div id="boardbox"> <!--캠퍼스톡보드박스 시작--> 
             <p class="tagtoggle"><img src="images/tagopen.jpg"></p>
             <ul class="toptag">
-                <a href="#"><li class="taglist_item toptag_item">#어학2</li></a>
+                <a href="#"><li class="taglist_item toptag_item">#어학3</li></a>
                 <a href="#"><li class="taglist_item toptag_item">#취업</li></a>
                 <a href="#"><li class="taglist_item toptag_item">#공모전</li></a>
                 <a href="#"><li class="taglist_item toptag_item">#편입</li></a>
@@ -88,17 +83,7 @@
 
                 <div class="clear"></div>
 			</div>
- <c:forEach var="member" items="${membersList}" >     
-   <tr align="center">
-      <td>${member.id}</td>
-      <td>${member.pwd}</td>
-      <td>${member.name}</td>
-      <td>${member.email}</td>
-      <td>${member.joinDate}</td>
-      <td><a href="${contextPath}/member/removeMember.do?id=${member.id }">삭제하기</a></td>
-    </tr>
-  </c:forEach>   
-</table>
+ 
             <ul id="cpstalk_list">
             	 <c:forEach var="post" items="${postlist}" > 
             	<li class="cpstalk_listitem"> 	 
@@ -109,7 +94,8 @@
                        		</td>
                         	<td class="cpstalk_itemsummary">
                                 <p class="user_info"><span class="user_nick">${post.writer} : 망고바 | 경영</span> </p>
-                                <p class="text">${post.title} </p>
+                                <input type="text" class="post_num" value=${post.postNum}>
+                                <p class="text post_title">${post.title} </p>
                                 <p class="info_tag"><a href="#"><span class="tag">#토익</span></a><a href="#"><span class="tag">#토익후기</span></a>
                                 </p>
                                 <div class="info">    
@@ -147,22 +133,7 @@
                 </li>
                 
             </ul>
-            <!-- 유저레이어--> 
-            <div id="user_layer">
-                <div class="user_info">
-                    <p class="user_pic"><img src="images/profile_default2.jpg" width="50" height="45" alt="" /></p>
-                    <p class="user_id">perser@naver.com</p>
-                    <p class="user_nick">닉네임 : 망고바</p>
-                    <p class="user_school">학교 : 비공개</p>
-                    <p class="user_major">전공 : 경영</p>
-                    <div class="user_cmt">
-                        코멘트(소개)
-                    </div>
-                    <a href="#" class="user_info_btn">작성글보기</a>
-                    <span class="user_layer_close"><img src="http://campust.eowork.co.kr/theme/campust/images/user_layer_close.jpg"  alt="" /></span>
-                </div>
-			</div> <!-- 유저레이어끝-->
-
+ 
           </div>   <!--보드박스 끝-->
           <div id="contents_sidebar">
         	<p>Daily UP</p>
@@ -193,7 +164,6 @@
  
  
 <style>
-
 
 #writebox_layer{position:fixed;display:none;width:100%;height:100%;top:0px;left:0px;background:rgba(0,0,0,0.7); z-index:99; position: fixed; margin: 0px auto; }
 
@@ -252,7 +222,6 @@
 	                <div class="preview_imagelist" style="border:1px solid #e3e3e3">
 	                                        
 	                </div>
-	                <table class="writebox_sub">
 	                <input type="file" name="image_upload" id="cpstalk_upload_image">
 	            
 	            </div>
@@ -277,7 +246,10 @@
 	        </div>
         </form>
    </div>
+</div>
 
+<div id="cpstalk_layer" style="display:none">
+</div>
 <script>
 $(function(){
 	$('.writing').click(function() {
@@ -337,7 +309,41 @@ function cpstalkFileHandleChange(){
 	
 }
 
-
+$(function() {   
+	$(".post_title").click(function(e){
+		
+		var parentNode = e.target.parentElement;
+		postNum = parentNode.getElementsByClassName("post_num")[0].value;
+		$.ajax({
+	        url:'/board/' + postNum
+	            ,type:"get"
+	            ,success:function(post){
+	            	
+	            	var postLayer = document.getElementById("cpstalk_layer")
+	            	postLayer.innerHTML = post;
+	            	postLayer.style.display = "block";
+	            	
+	            	$('#cpstalk_layer_close').click(function() {
+	            		postLayer.style.display = "none";
+	         		});
+	            	
+	            	
+	            }
+	            ,error:function(err){
+	            	alert('postnum ajax err');
+	            	alert(JSON.stringify(err));
+	            }
+		})
+		
+	});
+	
+	
+	
+});
 </script>
+
+
+
+
 </body>
 </html>

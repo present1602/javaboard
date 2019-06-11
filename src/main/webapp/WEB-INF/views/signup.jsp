@@ -66,7 +66,7 @@
 			<dt><label for="user_image">프로필이미지</label></dt>
 			
 			
-			<img id="imgPreview" src="" style="width:70px; height:70px;border-radius:35px;">
+			<img id="imgPreview" src="/resources/images/profile_default2.jpg" style="width:70px; height:70px;border-radius:35px;">
 			<input type="file" id="profile_image" name="profile_image">
           	
 		</dl>

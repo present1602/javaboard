@@ -38,6 +38,12 @@
     ]]>
 	</select>
 	
+	<select id="selectPost" resultType="com.myspring.cpst.board.BoardVO">
+    <![CDATA[
+       SELECT * from cpst_board where postNum = #{postNum}	
+    ]]>
+	</select>
+	
 
 	
 

@@ -175,7 +175,8 @@ a:hover,a:active{text-decoration:none; color:#333; background-color:transparent;
 
 
 
-#cpstalk_layer{position:fixed;display:none;width:100%;height:100%;top:0px;left:0px;background:rgba(0,0,0,0.7); z-index:99; position: fixed; margin: 0px auto; }
+#cpstalk_layer{position:fixed; width:100%;height:100%;top:0px;left:0px;
+background:rgba(0,0,0,0.7); z-index:99; position: fixed; margin: 0px auto; }
 #cpstalk_layer_close{position:absolute; top:30px; right:30px;}
 
 .cpstalk_itembox{border:1px solid rgba(212,212,212,1);
@@ -190,12 +191,37 @@ overflow-y:auto;max-height:calc(80vh);
 padding:18px 30px;}
 
 
+.cpstalk_itembox .cpstalk_top .user_pic{display: table-cell;width:50px;}
+.cpstalk_itembox .cpstalk_top .user_pic img{width:50px; height:50px}
+.cpstalk_itembox .cpstalk_top .user_info{margin-right:10px;display: table-cell; vertical-align: middle;color:rgba(65,128,255,1);font-size:13px;}
+.cpstalk_itembox .cpstalk_top .user_nick {margin-left:10px; padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
+.cpstalk_itembox .cpstalk_top .user_major{padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
+.cpstalk_itembox .cpstalk_text{line-height:2em; font-size:13px; margin:10px 0; padding:5px 10px 15px 10px; ;background:rgba(250,250,255,1); border-radius:5px;}
+
+.replybox{position:relative;margin:10px 0; padding-bottom:20px; border-bottom:1px solid #ccc;}	 
+.replybox .user_pic{padding:10px; float:left;}
+.replybox .user_pic img{height:45px;}
+.replybox .replyinput{width:70%; height:56px; background-color:#f8f8f8; overflow-y:scroll; margin-left:10px; resize:none;border:1px solid #ebebeb; font-size:13px; line-height:18px; color:#636363; padding:8px 10px;}
+.replybox .reply_button{position:absolute; right:0;width:80px;height:72px; background-color:rgba(65,128,255,1); border:0; font-size:13px; color:#fff; margin-left:10px; cursor:pointer;}
+.replybox .replyinput_to_reply{margin-left:8px; width:65%; overflow-x:hidden;height:56px; background-color:#f8f8f8; overflow-y:scroll; resize:none;border:1px solid #ebebeb; font-size:13px; line-height:18px; color:#636363; padding:8px 10px;}
+.replybox .user_pic img{height:45px}
+
+.cpstalk_replylist .user{vertical-align:top;}
+.cpstalk_replylist .user_pic{text-align:center; top:5px; width:50px; padding:8px 4px;}
+.cpstalk_replylist .user_nick{margin-right:10px;}
+.cpstalk_replylist .reply_text{line-height:1.7em; margin-bottom:6px;}
+.cpstalk_replylist .reply_item{padding:4px; border-bottom:1px solid rgba(228,228,228,1);}
+
 .replybox .material_replyinput{float:left; width:660px; height:56px; background-color:#f8f8f8; overflow-y:scroll; resize:none;border:1px solid #ebebeb; font-size:13px; line-height:18px; color:#636363; padding:3px 6px;}
 
+.cpstalk_top{width:100%; display:table; height:50px;}
 
-#cpstalk_layer{position:fixed;display:none;width:100%;height:100%;top:0px;left:0px;background:rgba(0,0,0,0.7); z-index:99; position: fixed; margin: 0px auto; }
-#cpstalk_layer_close{position:absolute; top:30px; right:30px;}
-
+.reply_item_table{width:100%;}
+.cpstalk_replylist .reply_content{width:100%;}
+.cpstalk_replylist .reply_to_reply_content{width:100%;}
+.replylist_to_reply{display:none; }
+.replylist_to_reply .replybox{border-top:1px solid rgba(228,228,228,1); border-bottom:1px solid rgba(228,228,228,1)}
+.icon_reply{float:left}
 
 
 

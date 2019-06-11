@@ -10,7 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.myspring.cpst.member.MemberService;
-
+import com.myspring.cpst.member.MemberVO;
 import com.myspring.cpst.board.BoardVO;
 //import com.myspring.cpst.member.vo.MemberVO;
 
@@ -34,6 +34,13 @@ public class BoardDAO {
 //	}
 	
 
+	public BoardVO getPost(int postNum) throws DataAccessException{
+		System.out.println("2. boarddao.java getpost - postNum : " + postNum);
+		BoardVO post = sqlSession.selectOne("selectPost", postNum);
+		System.out.println("3. boarddao.java - post.getTitle() : " + post.getTitle());
+		return post;
+	}
+	
 	public int insertPost(Map postMap) {
 		int result = 0;
 		System.out.println("BOARD DAO insertPost ");

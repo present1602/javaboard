@@ -12,7 +12,10 @@
 <head>
 <meta charset="UTF-8">
 <title>헤더</title>
-	
+	 <link href="<c:url value="/resources/css/common.css" />" rel="stylesheet">
+ 	
+	<script src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>
+	<script src="<c:url value="/resources/js/basic.js" />"></script>
 </head>
 
 <body>

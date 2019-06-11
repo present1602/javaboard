@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +62,10 @@ public class BoardController {
 	@Autowired
 	MemberVO memberVO ;
 	
+	@Autowired
+	BoardVO boardVO ;
+	
+	
 //	@RequestMapping(value = "", method = RequestMethod.GET)
 //	public String home(Locale locale, Model model) {
 //		System.out.println("path : /  in boardController ");
@@ -75,6 +80,20 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
+		return mav;
+	}
+	
+	@RequestMapping("/{postNum}")
+	public ModelAndView post(@PathVariable int postNum) throws Exception {
+		System.out.println(" 1. postnum pathv ");
+		BoardVO postVO = boardDAO.getPost(postNum);
+		System.out.println("4. Boardcontroller post-getTitle : " +  postVO.getTitle());
+//		ModelAndView mav = new ModelAndView("main");
+//		mav.addObject("postlist", postlist);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("post_layer");
+		mav.addObject("post", postVO);
 		return mav;
 	}
 	

@@ -56,13 +56,13 @@ $(document).ready(function(){
 }) 
 
 $(document).ready(function(){
-	$('.cpstalk_itemsummary .text').click(function() {
-		$('#cpstalk_layer').css('display','block');
-
-	});
-	$('.cpstalk_itemsummary .text').click(function() {
-		
-	});
+//	$('.cpstalk_itemsummary .text').click(function() {
+//		$('#cpstalk_layer').css('display','block');
+//
+//	});
+//	$('.cpstalk_itemsummary .text').click(function() {
+//		
+//	});
 	
 	$('#cpstalk_layer_close').click(function() {
 	   $("#cpstalk_layer").hide();
