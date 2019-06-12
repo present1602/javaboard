@@ -14,7 +14,21 @@ public class BoardVO {
 	private Date createdAt;
 	private int writer;
 	private String writerImage;
+	private String writerNick;
+	private String writerMajor;
 	
+	public String getWriterNick() {
+		return writerNick;
+	}
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
+	}
+	public String getWriterMajor() {
+		return writerMajor;
+	}
+	public void setWriterMajor(String writerMajor) {
+		this.writerMajor = writerMajor;
+	}
 	public int getWriter() {
 		return writer;
 	}
