@@ -190,7 +190,7 @@ transform: translate(-50%, -50%);
 overflow-y:auto;max-height:calc(80vh);
 padding:18px 30px;}
 
-
+.cpstalk_title{padding:15px; font-size:1.8em;}
 .cpstalk_itembox .cpstalk_top .user_pic{display: table-cell;width:50px;}
 .cpstalk_itembox .cpstalk_top .user_pic img{width:50px; height:50px}
 .cpstalk_itembox .cpstalk_top .user_info{margin-right:10px;display: table-cell; vertical-align: middle;color:rgba(65,128,255,1);font-size:13px;}

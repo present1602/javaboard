@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myspring.cpst.member.MemberService;
 import com.myspring.cpst.member.MemberVO;
@@ -61,7 +62,8 @@ public class BoardDAO {
 	public void addHit(int postNum) {
 		sqlSession.update("updateHit", postNum);
 	}
-
+	
+	@ResponseBody
 	public CommentVO addComment(Map<String, Object> commentMap) {
 		System.out.println("2. BoardDAO addComment ½ÇÇà");
 		int result = 0;
@@ -73,6 +75,8 @@ public class BoardDAO {
 			int commentNum = (Integer) commentMap.get("commentNum");
 			commentVO = sqlSession.selectOne("selectComment", commentNum);
 		}
+		
+		
 		return commentVO;
 	}
 

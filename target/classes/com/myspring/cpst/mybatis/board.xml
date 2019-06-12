@@ -54,13 +54,13 @@
 		INSERT INTO CPST_COMMENT
 		(commentNum, content, post, writer, writerNick, writerImage)
 		VALUES
-		(#{commentNum}, #{content}, #{post}, #{writerSid}, #{writerImage}, #{writerNick})
+		(#{commentNum}, #{content}, #{post}, #{writerSid}, #{writerNick}, #{writerImage})
 	</insert>
 
 
 	<select id="selectAllComments" resultType="com.myspring.cpst.board.CommentVO">
 	<![CDATA[
-		select * from cpst_comment where post = #{postNum}
+		select * from cpst_comment where post = #{postNum} order by createdAt desc 
 	]]>
 	</select>
 	

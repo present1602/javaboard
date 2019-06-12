@@ -111,28 +111,6 @@
                     </table>
                 </li>
                 </c:forEach> 
-              
-                <li class="cpstalk_listitem">  
-                	<table>
-                    	<tr class="">
-                        	<td class="user">
-                            	<img class="user_pic" src="images/profile_default2.jpg">
-                       		</td>
-                        	<td class="cpstalk_itemsummary">
-                                <p class="user_info"><span class="user_nick">망고바 | 경영</span> </p>
-                                <p class="text">토익 이번에 어려웠나요? RC 시간 모자라서 두지문 못풀었는데 점수 저번보다 떨어질까요 독해파트 신유형 메신저대화 부분 내용이 잘 이해가 안돼서..  마지막에 두지문 거의 찍다시피 풀었어요 이번토익이 난이도가 높았던걸까요 그냥 제가 망할 걸까요 </p>
-                                <p class="info_tag"><a href="#"><span class="tag">#토익</span></a><a href="#"><span class="tag">#토익후기</span></a>
-                                </p>
-                                <div class="info">    
-                                    <span class="time">2시간 전</span>
-                                    <span class="view">43</span>
-                                    <span class="rec">5</span>
-                                    <span class="cmt">57</span>
-	                            </div>
-                            </td>
-                        </tr>	
-                    </table>
-                </li>
                 
             </ul>
  
@@ -334,10 +312,31 @@ $(function() {
 	            			,type:"post"
 	            			,data: {postNum : $("#post_num").val(),
 	            				commentContent : $("#commentContent").val(),}
+	            			/* ,contentType: "application/x-www-form-urlencoded; charset=UTF-8" */
 	            			,success:function(data){
-	            				alert("data : " + data);
+	            				console.log("cmt ajax suc")
+	            				$("#reply_wrap").html(data)
+	            				
+	            			/* 	console.log("data : " );
+	            				var parseData = JSON.parse(data);
+	            				console.log("p cont : " + parseData.content);
+	            				console.log("p created : " + parseData.createdAt);
+	            				console.log("p nick : "  + parseData.writerNick);
+	            				var echoComment = "<li>";
+	            				
+	            				var echoComment += "</li>"; */
+	            				
+	/*             				var parseData = JSON.parse(data);
+	            				alert("parseData.content : " + parseData.content)
+	 */
+	 							/* var cont = parseData.content;
+	            				var nick =parseData.writerNick;
+	            				var image = parseData.writerImage;
+	            				var createdAt = parseData.createdAt;
+	            				alert("cont : " + cont + ", nick : " + nick + ", create : " + createdAt); */
 	            			}
 	            			,error:function(err){
+	            				alert("ajax err");
 	            				alert(JSON.stringify(err));
 	            			}
 	            		}); 

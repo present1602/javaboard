@@ -42,6 +42,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.myspring.cpst.member.MemberDAO;
 import com.myspring.cpst.member.MemberService;
 import com.myspring.cpst.member.MemberVO;
@@ -70,14 +71,6 @@ public class BoardController {
 	@Autowired
 	BoardVO boardVO ;
 	
-	
-//	@RequestMapping(value = "", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) {
-//		System.out.println("path : /  in boardController ");
-//		
-//		return "main";
-//	}
-	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -85,6 +78,7 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
+		 
 		return mav;
 	}
 	
@@ -98,29 +92,26 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("post_layer");
 		mav.addObject("post", postVO);
+		//mav.addObject("commentList, commentList);
 		
 		List commentList = boardDAO.commentList(postNum);
 		mav.addObject("comments", commentList);
 		return mav;
 	}
 	
+
+	
 	@RequestMapping(value = "/write_comment", method = RequestMethod.POST)	
-//	@RequestParam(value = "val", required = true) String parse
-	public @ResponseBody CommentVO write_comment(
+	public @ResponseBody ModelAndView write_comment(
 			@RequestParam(value="commentContent") String commentContent, 
 			@RequestParam(value="postNum") String postNum, 
 			HttpServletRequest request) throws Exception {
-		System.out.println("1. write_comment pathv ");
-		System.out.println("2. postNum : " + postNum);
-		System.out.println("3. commentContent : " + commentContent);
+
 		
 		Map<String,Object> commentMap = new HashMap<String, Object>();
 		
 		commentMap.put("post", postNum);
 		commentMap.put("content", commentContent);
-		System.out.println("postNum : " + postNum);
-		System.out.println("commentContent : " + commentContent);
-		
 		
 		int commentNum = getNewCommentNum();
 		
@@ -130,19 +121,68 @@ public class BoardController {
 		int writerSid = (Integer) session.getAttribute("memberSid");
 		String writerImage = (String) session.getAttribute("memberImage");
 		String writerNick = (String) session.getAttribute("memberNick");
-		
-		System.out.println("1. memberSid : " + writerSid);
-		System.out.println("1. memberImage : " + writerImage);
-		System.out.println("1. memberNick : " + writerNick);
 	
 		commentMap.put("writerSid", writerSid);
 		commentMap.put("writerImage", writerImage);
 		commentMap.put("writerNick", writerNick);
 	
 		CommentVO commentVO = boardDAO.addComment(commentMap);
+	
+		List commentList = boardDAO.commentList((int) Integer.parseInt(postNum));
 		
-		return commentVO;
+//		for (CommentVO vo : commentList) {
+//		    System.out.println(vo.getCommentNum());
+//		    System.out.println(vo.getContent());
+//		}
+		
+		ModelAndView mav = new ModelAndView("comments");
+		mav.addObject("comments", commentList);
+		
+		return mav;
 	}
+	
+//	@RequestMapping(value = "/write_comment", method = RequestMethod.POST)	
+//	public @ResponseBody String write_comment(
+//			@RequestParam(value="commentContent") String commentContent, 
+//			@RequestParam(value="postNum") String postNum, 
+//			HttpServletRequest request) throws Exception {
+//		System.out.println("1. write_comment pathv ");
+//		System.out.println("2. postNum : " + postNum);
+//		System.out.println("3. commentContent : " + commentContent);
+//		
+//		Map<String,Object> commentMap = new HashMap<String, Object>();
+//		
+//		commentMap.put("post", postNum);
+//		commentMap.put("content", commentContent);
+//		System.out.println("postNum : " + postNum);
+//		System.out.println("commentContent : " + commentContent);
+//		
+//		
+//		int commentNum = getNewCommentNum();
+//		
+//		commentMap.put("commentNum", commentNum);
+//		
+//		HttpSession session = request.getSession();
+//		int writerSid = (Integer) session.getAttribute("memberSid");
+//		String writerImage = (String) session.getAttribute("memberImage");
+//		String writerNick = (String) session.getAttribute("memberNick");
+//		
+//		System.out.println("1. memberSid : " + writerSid);
+//		System.out.println("1. memberImage : " + writerImage);
+//		System.out.println("1. memberNick : " + writerNick);
+//	
+//		commentMap.put("writerSid", writerSid);
+//		commentMap.put("writerImage", writerImage);
+//		commentMap.put("writerNick", writerNick);
+//	
+//		CommentVO commentVO = boardDAO.addComment(commentMap);
+//		System.out.println(commentVO.getContent());
+//		System.out.println(commentVO.getCreatedAt());
+//		
+//		Gson gson = new Gson();
+//		String json = gson.toJson(commentVO);
+//		return json;
+//	}
 	
 //	@RequestMapping("/write_comment")
 //	public CommentVO write_comment(@RequestParam String commentData, @RequestParam String postNum, 
