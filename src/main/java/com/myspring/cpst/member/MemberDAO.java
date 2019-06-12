@@ -25,7 +25,6 @@ public class MemberDAO{
 		return vo;
 	}
 	
-	
 	public int insertMember(Map memberMap) {
 		int result = 0;
 		System.out.println("MB DAO insertMember ");

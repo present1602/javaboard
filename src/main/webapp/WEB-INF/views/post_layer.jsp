@@ -53,7 +53,7 @@
 							<table class="reply_item_table">
 								<tr style="border: 1px solid blue">
 									<td class="user"><p class="user_pic">
-											<img src="resources/images/${cmt.writerImage}">
+											<img src="resources/upload/${cmt.writerImage}">
 										</p></td>
 									<td class="reply_content">
 										<p class="user_nick">${cmt.writerNick}</p>

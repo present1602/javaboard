@@ -29,7 +29,7 @@
 						<p>${memberSid}</p>
 						
 						<p id="logout_button">
-							<a href="#">로그아웃</a>
+							<a href="/member/logout">로그아웃</a>
 						</p>
 
 					</c:when>

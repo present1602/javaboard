@@ -69,6 +69,20 @@ public class MemberController {
 		return "login";
 	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		session.removeAttribute("memberSid");
+		session.removeAttribute("memberImage");
+		session.removeAttribute("memberNick");
+		
+		return "redirect:/board";
+	
+	}
+		
+		
+//		mav.setViewName("redirect:/board");
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberVO member,
             RedirectAttributes rAttr,
