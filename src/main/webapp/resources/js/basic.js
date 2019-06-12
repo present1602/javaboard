@@ -110,26 +110,3 @@ function cpstalkImageUploadClick(){
 }
 
 
-
-
-$("#reply_button").on("click", function() {
-	var postNum = document.getElementById("post_num").value;
-	alert('버튼 클릭');
-	alert("postNum : " + postNum);
-   /*  $.ajax({
-        url : "/board/" + postNum + "/write_comment",
-        data : {
-            commentContent : $("#commentContent").val()
-        },
-       
-        success : function(data) {
-            alert("comment ajax suc");
-            alert("data : " + data);
-        },
-        
-        error : function(err) {
-        	alert("comment ajax err");
-            alert(JSON.stringify(err));
-        }
-    }) */
-});

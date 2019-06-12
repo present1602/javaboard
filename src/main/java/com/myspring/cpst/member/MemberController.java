@@ -94,6 +94,23 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/emailCheck", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String checkEmail(@RequestParam("text") String email) {
+		System.out.println("checkEmail ");
+		System.out.println("email : " + email);
+		String msg = "";
+		boolean checkEmail = memberDAO.isEmailExists(email);
+		if(checkEmail == true) {
+			System.out.println("chk em true");
+			msg = "email exists";
+		}else {
+			System.out.println("chk em false");
+		}
+//		System.out.println("email : " + email);
+		return msg;
+	}
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity signup(Model model,
@@ -109,6 +126,7 @@ public class MemberController {
 		System.out.println("/signup post");
 		
 		String imgUrl = MemberService.saveImage(file);
+		
 		System.out.println("imgUrl : " + imgUrl);
 		Map<String,Object> memberMap = new HashMap<String, Object>();
 		memberMap.put("email", email);
@@ -121,12 +139,14 @@ public class MemberController {
 		memberMap.put("profile_image", imgUrl);
 		
 		
-		int result = memberDAO.insertMember(memberMap);
-		System.out.println("in mbctroller result : " + result);
 		String message;
 		ResponseEntity resEnt=null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		
+		int result = memberDAO.insertMember(memberMap);
+		System.out.println("in mbctroller result : " + result);
 		
 		if(result == 1) {
 			message = "<script>";
@@ -135,6 +155,8 @@ public class MemberController {
 			message +=" </script>";
 		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 		}
+		
+
 		
 		return resEnt;
 

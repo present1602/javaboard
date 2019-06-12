@@ -49,5 +49,15 @@ public class MemberDAO{
 //	}
 
 
+	public boolean isEmailExists(String email) {
+		boolean result = false;
+		MemberVO member = sqlSession.selectOne("selectMemberByEmail", email);
+		if( member != null) {
+			result = true;
+		}
+		return result;
+	}
+
+
 
 }

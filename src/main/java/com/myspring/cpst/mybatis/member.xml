@@ -27,6 +27,13 @@
 		select * from cpst_member where sid=#{sid}		
 	]]>
 	</select>
+	
+	<select id="selectMemberByEmail" resultType="com.myspring.cpst.member.MemberVO">
+	<![CDATA[
+		select * from cpst_member where email=#{email}		
+	]]>
+	</select>
+	
 
 </mapper>
 

@@ -19,15 +19,18 @@ public class MemberService {
 	private MemberDAO memberDAO;
 
 	public static String saveImage(MultipartFile file) {
-		String imageUrl = null;
+		String imageUrl = "profile_default2.jpg";
 		try {
 			String originFilename = file.getOriginalFilename();
 			Long size = file.getSize();
 			System.out.println("originFilename : " + originFilename);
 			System.out.println("size : " + size);
+			if(size != 0) {
+				
+				writeFile(file, originFilename);
+				imageUrl = originFilename;	
+			}
 			
-			writeFile(file, originFilename);
-			imageUrl = originFilename;
 		}catch (Exception e) {
 			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
 			// 편의상 RuntimeException을 던진다.

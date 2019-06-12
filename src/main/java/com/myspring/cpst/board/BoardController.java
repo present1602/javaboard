@@ -197,11 +197,12 @@ public class BoardController {
 			System.out.println("BCTR name : " + name + ", value : " + value);
 		}
 		
+//		UUID uuid = UUID.randomUUID();
+		
 		String imageFileName= saveImage(multipartRequest);
 		System.out.println("imageFileName : " + imageFileName);
 		
 		HttpSession session = multipartRequest.getSession();
-//		MemberVO memberVO = (MemberVO) session.getAttribute("member");
 		
 		String memberSid = (String) session.getAttribute("memberSid").toString();
 		
@@ -218,9 +219,6 @@ public class BoardController {
 		
 		System.out.println("memberSid : " + memberSid);
 		System.out.println("postmap get writer - : " + postMap.get("writer") );
-		
-//		System.exit(3);
-		
 		
 		MemberVO member = (MemberVO) memberDAO.getMember(Integer.parseInt(memberSid));
 		

@@ -23,7 +23,7 @@
 				<c:choose>
 					<c:when test="${memberSid != null}">
 						<img class="profile_main" 
-							src="resources/upload/${memberImage}" 
+							src="/resources/upload/${memberImage}" 
 							style="width:100px; height:100px; border-radius:50px">
 						<p>${memberName}</p>
 						<p>${memberSid}</p>
@@ -74,8 +74,10 @@
             </div>             -->
             
             
-            <div id="cpstalk_sub">               
+            <div id="cpstalk_sub">     
+                  
                 <p class="writing">글쓰기</p>
+              
                 <div class="listtype">
                 	<span id="listview_opt1"><img src="images/listtype2.gif"></span>
                     <span id="listview_opt2"><img src="images/listtype1.gif"></span>
@@ -87,13 +89,13 @@
             <ul id="cpstalk_list">
             	 <c:forEach var="post" items="${postlist}" > 
             	<li class="cpstalk_listitem"> 	 
-                	<table>
+            		<table>
                     	<tr class="cpstalk_listitem_tr">
                         	<td class="user">
-                            	<img class="user_pic" src="resources/upload/${post.writerImage}">
+                            	<img class="user_pic" src="/resources/upload/${post.writerImage}">
                        		</td>
                         	<td class="cpstalk_itemsummary">
-                                <p class="user_info"><span class="user_nick">${post.writer} : 망고바 | 경영</span> </p>
+                                <p class="user_info"><span class="user_nick">${post.writerNick} | ${post.writerMajor}</span> </p>
                                 <input type="hidden" class="post_num" value=${post.postNum}>
                                 <p class="text post_title">${post.title} </p>
                                 <p class="info_tag"><a href="#"><span class="tag">#토익</span></a><a href="#"><span class="tag">#토익후기</span></a>
@@ -213,7 +215,7 @@
     <div id="write_box">
     	<form method="post" action="/board/write" enctype="multipart/form-data">
 	        <h2 class="">
-	            <strong><span class="icon"><img src="resources/images/write_icon.jpg" style="width:22px" alt="" /></span> CAMPUS TALK</strong>
+	            <strong><span class="icon"><img src="/resources/images/write_icon.jpg" style="width:22px" alt="" /></span> CAMPUS TALK</strong>
 	        </h2>
 	            <input type="text" name="title" value="" id="wr_subject" required class="write_title" placeholder="제목" />
 	            <div class="write_content_box">
@@ -253,6 +255,8 @@
 <script>
 $(function(){
 	$('.writing').click(function() {
+		
+		
 		$('#writebox_layer').css('display','block');
 		
 		$('#writebox_layer .button_cancel').click(function() {
@@ -324,8 +328,7 @@ $(function() {
 	            	postLayer.style.display = "block";
 	            	
 	            	$("#reply_button").click(function(e){
-	            		/* alert("$('#post_num').val() : " + $("#post_num").val());
-	            		alert("$('#commentContent').val() : " + $("#commentContent").val()); */
+	            		
 	            		$.ajax({
 	            			url:'/board/write_comment'
 	            			,type:"post"

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,8 @@
     <div class="user_join" style="padding-left: 0;">
         <dl class="join_info">
 			<dt><label for="email">이메일아이디</label></dt>
-			<dd><input type="text" name="email" class="it_txt" required value="em@naver.com"></dd>
+			<dd><input type="text" name="email" class="it_txt" id="emailInput" required value="em@naver.com"></dd>
+			<p id="checkEmailMsg" style="text-align:center; color:red; margin-bottom:8px;"></p>
 			<dt><label for="password">비밀번호</label></dt>
 			<dd><input type="password" name="password" value="1234" id="user_pw" class="it_txt" required /></dd>
 			<dt><label for="password2">비밀번호 확인</label></dt>
@@ -82,9 +84,27 @@
 
     <script>
     $(function() {
-        $("#reg_zip_find").css("display", "inline-block");
+        /* $("#reg_zip_find").css("display", "inline-block"); */
 
-                    });
+    	$("#emailInput").focusout(function(e){
+    		var emailText = e.target.value;
+    		$("#checkEmailMsg").html("");
+    		/* alert("fs emailText : " + emailText); */
+    		$.ajax({
+    			url : "/member/emailCheck?text=" + emailText,
+    			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    			success : function(data){
+    				if(data == "email exists"){
+    					$("#checkEmailMsg").html("이미 가입된 이메일입니다");
+    				}
+    			},
+    			error : function(err){
+    				alert(JSON.stringify(err));
+    			}
+    			
+    		});
+    	});
+    });
 
     // submit 최종 폼체크
     function fregisterform_submit(f)
