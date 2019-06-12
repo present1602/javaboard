@@ -63,15 +63,23 @@ public class BoardDAO {
 	}
 
 	public CommentVO addComment(Map<String, Object> commentMap) {
+		System.out.println("2. BoardDAO addComment ½ÇÇà");
 		int result = 0;
 		CommentVO commentVO = null;
 		result = sqlSession.insert("insertComment", commentMap);
+		System.out.println("3. boaddao insertcomment result : " + result);
 		
-		
-//		if(result == 1) {
-//			commentVO = sqlSession.selectOne("selectComment", commentMap.get(key));
-//		}
+		if(result == 1) {
+			int commentNum = (Integer) commentMap.get("commentNum");
+			commentVO = sqlSession.selectOne("selectComment", commentNum);
+		}
 		return commentVO;
+	}
+
+	public List commentList(int postNum) {
+		List<CommentVO> commentList = null;
+		commentList = sqlSession.selectList("selectAllComments", postNum);
+		return commentList;
 	}
 
 //	public MemberVO login(@MemberVO memberVO) {

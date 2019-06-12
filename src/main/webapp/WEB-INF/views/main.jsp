@@ -94,7 +94,7 @@
                        		</td>
                         	<td class="cpstalk_itemsummary">
                                 <p class="user_info"><span class="user_nick">${post.writer} : 망고바 | 경영</span> </p>
-                                <input type="text" class="post_num" value=${post.postNum}>
+                                <input type="hidden" class="post_num" value=${post.postNum}>
                                 <p class="text post_title">${post.title} </p>
                                 <p class="info_tag"><a href="#"><span class="tag">#토익</span></a><a href="#"><span class="tag">#토익후기</span></a>
                                 </p>
@@ -322,6 +322,23 @@ $(function() {
 	            	var postLayer = document.getElementById("cpstalk_layer")
 	            	postLayer.innerHTML = post;
 	            	postLayer.style.display = "block";
+	            	
+	            	$("#reply_button").click(function(e){
+	            		/* alert("$('#post_num').val() : " + $("#post_num").val());
+	            		alert("$('#commentContent').val() : " + $("#commentContent").val()); */
+	            		$.ajax({
+	            			url:'/board/write_comment'
+	            			,type:"post"
+	            			,data: {postNum : $("#post_num").val(),
+	            				commentContent : $("#commentContent").val(),}
+	            			,success:function(data){
+	            				alert("data : " + data);
+	            			}
+	            			,error:function(err){
+	            				alert(JSON.stringify(err));
+	            			}
+	            		}); 
+	            	});
 	            	
 	            	$('#cpstalk_layer_close').click(function() {
 	            		postLayer.style.display = "none";

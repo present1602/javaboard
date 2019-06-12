@@ -202,7 +202,8 @@ padding:18px 30px;}
 .replybox .user_pic{padding:10px; float:left;}
 .replybox .user_pic img{height:45px; width:45px; border-radius:23px}
 .replybox .replyinput{width:70%; height:56px; background-color:#f8f8f8; overflow-y:scroll; margin-left:10px; resize:none;border:1px solid #ebebeb; font-size:13px; line-height:18px; color:#636363; padding:8px 10px;}
-.replybox .reply_button{position:absolute; right:0;width:80px;height:72px; background-color:rgba(65,128,255,1); border:0; font-size:13px; color:#fff; margin-left:10px; cursor:pointer;}
+#reply_button{position:absolute; right:0;width:80px;height:72px; 
+background-color:rgba(65,128,255,1); border:0; font-size:13px; color:#fff; margin-left:10px; cursor:pointer;}
 .replybox .replyinput_to_reply{margin-left:8px; width:65%; overflow-x:hidden;height:56px; background-color:#f8f8f8; overflow-y:scroll; resize:none;border:1px solid #ebebeb; font-size:13px; line-height:18px; color:#636363; padding:8px 10px;}
 .replybox .user_pic img{height:45px}
 
@@ -222,6 +223,7 @@ padding:18px 30px;}
 .replylist_to_reply{display:none; }
 .replylist_to_reply .replybox{border-top:1px solid rgba(228,228,228,1); border-bottom:1px solid rgba(228,228,228,1)}
 .icon_reply{float:left}
+
 
 
 

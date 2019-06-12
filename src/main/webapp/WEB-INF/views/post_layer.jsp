@@ -7,37 +7,6 @@
   request.setCharacterEncoding("UTF-8");
 
 %>    
-<script>
-$(function() {   
-	alert('post_layer.jsp load');
-});
-
-$(function() {
-	var curUrl = window.location.href; 
-	var postNum = document.getElementById("post_num").value;
-    $("#reply_button").on("click", function() {
-    	alert('버튼 클릭');
-       /*  $.ajax({
-            url : "/board/" + postNum + "/write_comment",
-            data : {
-                commentContent : $("#commentContent").val()
-            },
-           
-            success : function(data) {
-                alert("comment ajax suc");
-                alert("data : " + data);
-            },
-            
-            error : function(err) {
-            	alert("comment ajax err");
-                alert(JSON.stringify(err));
-            }
-        }) */
-    });
-});
-
-</script>
-
 
 
   	<span id="cpstalk_layer_close"><img src="resources/images/cpstalk_layer_close.png"  style="outline:none" alt="" /></span>
@@ -49,7 +18,7 @@ $(function() {
                 
                 <div class="clear"></div>
         	</div>
-        	<input type="text" id="post_num" value=${post.postNum}>
+        	<input type="hidden" id="post_num" value=${post.postNum}>
         	<p class="cpstalk_title">${post.title }</p>
         	<p class="cpstalk_text">${post.content }</p>
         	<p class="info_tag"><a href="#"><span class="tag">#황금연휴</span></a><a href="#"><span class="tag">#해외여행</span></a>
@@ -72,10 +41,34 @@ $(function() {
 					</c:otherwise>
 				</c:choose>
 				
-                <textarea id="commentContent" name="commentContent" maxlength="1000" class="replyinput" title="댓글내용"></textarea>
-                <input type="submit" title="" name="" value="확인" id="reply_button"/>
-                <div class="clear"></div>
-            </div>
+	                <textarea id="commentContent" name="commentContent" maxlength="1000" class="replyinput" title="댓글내용"></textarea>
+	                <input type="hidden" id="post_num" value="${post.postNum}">
+	                <input type="button" name="" value="확인" id="reply_button"/>
+	                <div class="clear"></div>
+
+					<ul class="cpstalk_replylist">
+					 <c:forEach var="cmt" items="${comments}" > 
+					 
+						<li class="reply_item">
+							<table class="reply_item_table">
+								<tr style="border: 1px solid blue">
+									<td class="user"><p class="user_pic">
+											<img src="resources/images/${cmt.writerImage}">
+										</p></td>
+									<td class="reply_content">
+										<p class="user_nick">${cmt.writerNick}</p>
+										<p class="reply_text">${cmt.content}</p>
+										<div class="info">
+											<span class="time">${cmt.createdAt}</span>									
+										</div>
+									</td>
+								</tr>
+							</table>
+						</li>
+						 </c:forEach> 
+					</ul>
+		</div>
+
 	</div>
-
-
+	
+	
