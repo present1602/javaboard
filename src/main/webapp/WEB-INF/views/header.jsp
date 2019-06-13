@@ -19,31 +19,35 @@
 </head>
 
 <body>
+<!-- <form method="post" action="/board/searcht">
+<input type="text" name="search_text" value="tit">
+<input type="submit" value="dd"> -->
+
 <div id="header">
 	<div id="in_header">
 		<h1 class="logo" style="font-family: sans-serif; color: #fff">CAMPUS TALK</h1>
-		<!-- <ul class="gnb">
-                <a href="#"><li id="gnbnav_cpstalk">캠퍼스톡</li></a>
-                <a href="public/material_main.html"><li id="gnb_material">PPT·레포트</li></a>
-            </ul> -->
             
 		<div class="searchbox">
-			<form id="top_searchform">
+			<form id="top_searchform" name="top_searchform" method="post" action="/board/search">
 				<fieldset id="top_searchfield">
-					<input type="text" title="" name="" id="top_searchtext"
-						placeholder=""> <input type="image"
-						src="/resources/images/search.jpg" class="search_button">
+					<input type="text" title="search_text" name="search_text" id="top_searchtext" placeholder=""> 
+					<img src="/resources/images/search.jpg" id="search_button"
+					onclick="document.getElementById('top_searchform').submit();">
+					
 				</fieldset>
 			</form>
+			
+			
 		</div>
-		
-		<!-- <ul id="icon_menu">
-                <li class="social_icon"><a href=""><img src="images/ficon.jpg"></a></li>
-                <li class="social_icon"><a href=""><img src="images/bicon.jpg"></a></li>
-                <li id=""><img src=""></li>
-            </ul> -->
+		<!-- <input type="image" src="/resources/images/search.jpg" 
+					id="search_button" onclick="document.getElementById('top_searchform').submit()";> -->
 		<div class="clear"></div>
 	</div>
 </div>
+<script>
+$("#search_button").click(function(e){
+	
+})
+</script>
 </body>
 </html>

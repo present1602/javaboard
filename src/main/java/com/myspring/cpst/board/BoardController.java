@@ -82,6 +82,20 @@ public class BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView search(@RequestParam(value="search_text") String searchText) throws Exception {
+		System.out.println("/board/search »£√‚");
+		System.out.println("searchText : " + searchText);
+		List postlist = boardDAO.postlistBySearch(searchText);
+		
+		ModelAndView mav = new ModelAndView("main");
+		mav.addObject("postlist", postlist);
+		 
+		return mav;
+	}
+
+	
 	@RequestMapping("/{postNum}")
 	public ModelAndView post(@PathVariable int postNum) throws Exception {
 		System.out.println(" 1. postnum pathv ");

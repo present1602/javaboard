@@ -36,7 +36,7 @@
 					<c:otherwise>
 
 						<img class="profile_main"
-							src="resources/images/profileimage_default.gif">
+							src="/resources/images/profileimage_default.gif">
 						<p id="login_button">
 							<a href="/member/login">로그인하기</a>
 						</p>
@@ -50,6 +50,7 @@
 		</div>
 
 		<div id="boardbox"> <!--캠퍼스톡보드박스 시작--> 
+            <!-- 
             <p class="tagtoggle"><img src="images/tagopen.jpg"></p>
             <ul class="toptag">
                 <a href="#"><li class="taglist_item toptag_item">#어학3</li></a>
@@ -58,12 +59,12 @@
                 <a href="#"><li class="taglist_item toptag_item">#편입</li></a>
             </ul>
             
-            <!-- <ul class="taglist" id="" style="display:none;"> 
+            <ul class="taglist" id="" style="display:none;"> 
                 <a href="#"><li class="taglist_item">#인문</li></a>
             	<p class="tag_prevnext"><span class="tag_prev"><img src="images/tagtoleft.jpg"></span><span class="tag_next"><img src="images/tagtoright.jpg"></span></p>
-            </ul> -->
+            </ul>
 
-            <!-- <div id="cpstalk_searchbox">
+            <div id="cpstalk_searchbox">
                 <a href="#"><span class="tag_selected taglist_item" style="float:left;">#경영학과</span></a>
                 <form id="cpstalk_searchform">
                     <fieldset id="cpstalk_searchfield">
@@ -78,12 +79,6 @@
                   
                 <p class="writing">글쓰기</p>
               
-                <div class="listtype">
-                	<span id="listview_opt1"><img src="images/listtype2.gif"></span>
-                    <span id="listview_opt2"><img src="images/listtype1.gif"></span>
-                </div>	
-
-                <div class="clear"></div>
 			</div>
  
             <ul id="cpstalk_list">
@@ -207,7 +202,7 @@
 	            </div>
 	           <!--  <input type="text" name="" value="" id="" required class="write_tag" placeholder="태그" /> -->
 	     
-	            <p class="tagtoggle" style="position:relative;float:right;"><img src="images/tagopen.jpg"></p>
+	            <!-- <p class="tagtoggle" style="position:relative;float:right;"><img src="images/tagopen.jpg"></p>
 	            <ul class="toptag in_writebox">
 	                <li class="toptag_item taglist_item in_writebox">#인하대</li>
 	                <li class="toptag_item taglist_item in_writebox">#경영학과</li>
@@ -215,14 +210,16 @@
 	                <li class="toptag_item taglist_item in_writebox">#편입</li>
 	            </ul>
 	                        
-	                <ul class="taglist in_writebox" id="" style="display:none;"> 
-	                    <li class="taglist_item in_writebox">#인문</li>
-	                    <p class="tag_prevnext"><span class="tag_prev"><img src="images/tagtoleft.jpg"></span><span class="tag_next"><img src="images/tagtoright.jpg"></span></p>
-	                </ul>
+                <ul class="taglist in_writebox" id="" style="display:none;"> 
+                    <li class="taglist_item in_writebox">#인문</li>
+                    <p class="tag_prevnext"><span class="tag_prev"><img src="images/tagtoleft.jpg"></span><span class="tag_next"><img src="images/tagtoright.jpg"></span></p>
+                </ul>
+                -->
 	            <div class="write_button">
 	                <input type="submit" title="" name="" value="확인" class="button_ok"/>
 	                <input type="button" title="" name="" value="취소" class="button_cancel" onclick="" />
-	            </div>
+	            </div> 
+	            
 	        </div>
         </form>
    </div>
@@ -235,14 +232,23 @@ $(function(){
 	$('.writing').click(function() {
 		
 		
-		$('#writebox_layer').css('display','block');
-		
 		$('#writebox_layer .button_cancel').click(function() {
 			$('#writebox_layer').css('display','none');
 		});	
-	})
+		
+		<c:choose>
+	    	<c:when test="${not empty memberSid}">
+       		$('#writebox_layer').css('display','block');
+			$('#writebox_layer .button_cancel').click(function() {
+				$('#writebox_layer').css('display','none');
+			});
+			</c:when>
+			<c:otherwise>
+			alert("글쓰기를 위해서는 로그인이 필요합니다");	
+			</c:otherwise>
+		</c:choose>
+	});
 	
-	;
 	$('#writebox_layer').on('click', function (e) {
         //Check whether click on modal-content
         if (e.target !== this)

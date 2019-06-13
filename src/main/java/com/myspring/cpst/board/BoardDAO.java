@@ -86,6 +86,12 @@ public class BoardDAO {
 		return commentList;
 	}
 
+	public List postlistBySearch(String searchText) {
+		List<BoardVO> postlist = null;
+		postlist = sqlSession.selectList("selectPostsBySearch", searchText);
+		return postlist;
+	}
+
 //	public MemberVO login(@MemberVO memberVO) {
 //		memberVO vo = sqlSession.selectOne("mapper.member.loginById",memberVO);
 //		return vo;

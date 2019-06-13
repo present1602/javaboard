@@ -44,6 +44,14 @@
     ]]>
 	</select>
 	
+	<select id="selectPostsBySearch" resultType="com.myspring.cpst.board.BoardVO">
+    <![CDATA[
+        SELECT * from cpst_board 
+		where title like '%' || #{searchText} || '%' 
+		or content like '%' || #{searchText} || '%' order by createdAt desc
+    ]]>
+	</select>
+	
 	<update id="updateHit">
     <![CDATA[
        update cpst_board set hit = hit + 1 where postNum = #{postNum}	

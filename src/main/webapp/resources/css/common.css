@@ -52,7 +52,7 @@ a:hover,a:active{text-decoration:none; color:#333; background-color:transparent;
 #header .searchbox{position:relative; float:left; left:420px; top:3px;}
 
 #header #top_searchtext{height:25px; width:360px;}
-#header .searchbox .search_button{border:1px solid #ccc;top:1px;position:relative; right:4px; top:-1px;} 
+#header .searchbox #search_button{border:1px solid #ccc;top:1px;position:relative; right:4px; top:-1px;} 
 #in_header #icon_menu{position:relative; float:left; left:350px;}
 #header #icon_menu li{float:left; margin:0 2px;}
 

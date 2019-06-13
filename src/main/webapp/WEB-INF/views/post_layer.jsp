@@ -11,10 +11,10 @@
 %>    
 
 
-  	<span id="cpstalk_layer_close"><img src="resources/images/cpstalk_layer_close.png"  style="outline:none" alt="" /></span>
+  	<span id="cpstalk_layer_close"><img src="/resources/images/cpstalk_layer_close.png"  style="outline:none" alt="" /></span>
 	<div class="cpstalk_itembox">       
         	<div class="cpstalk_top">
-                <p class="user_pic"><img src="resources/upload/${post.writerImage} " style="border-radius:50px">
+                <p class="user_pic"><img src="/resources/upload/${post.writerImage} " style="border-radius:50px">
                 </p>
                 <p class="user_info"><span class="user_nick">${post.writerNick}</span> | <span class="user_major">${post.writerMajor}</span> </p>
                 
@@ -35,11 +35,11 @@
             
             	<c:choose>
 					<c:when test="${memberSid != null && memberImage != null}">
-						<p class="user_pic"><img src="resources/upload/${memberImage}"></p>
+						<p class="user_pic"><img src="/resources/upload/${memberImage}"></p>
 					</c:when>
 					
 					<c:otherwise>
-						<p class="user_pic"><img src="resources/images/profile_default2.jpg"></p>
+						<p class="user_pic"><img src="/resources/images/profile_default2.jpg"></p>
 					</c:otherwise>
 				</c:choose>
 				
@@ -55,7 +55,7 @@
 								<table class="reply_item_table">
 									<tr style="border: 1px solid blue">
 										<td class="user"><p class="user_pic">
-												<img src="resources/upload/${cmt.writerImage}">
+												<img src="/resources/upload/${cmt.writerImage}">
 											</p></td>
 										<td class="reply_content">
 											<p class="user_nick">${cmt.writerNick}</p>
