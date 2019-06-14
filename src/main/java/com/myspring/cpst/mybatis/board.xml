@@ -41,11 +41,13 @@
     ]]>
 	</select>
 	
+	
 	<select id="selectPost" resultType="com.myspring.cpst.board.BoardVO">
     <![CDATA[
        SELECT * from cpst_board where postNum = #{postNum}	
     ]]>
 	</select>
+	
 	
 	<select id="selectPostsBySearch" resultType="com.myspring.cpst.board.BoardVO">
     <![CDATA[
@@ -55,11 +57,21 @@
     ]]>
 	</select>
 	
+	
+	<select id="selectPostsByHit" resultType="com.myspring.cpst.board.BoardVO">
+    <![CDATA[
+       SELECT * from cpst_board order by hit desc FETCH FIRST 5 rows only
+    ]]>
+	</select>
+	
+	
+	
 	<update id="updateHit">
     <![CDATA[
        update cpst_board set hit = hit + 1 where postNum = #{postNum}	
     ]]>
 	</update>
+	
 	
 	<insert id="insertComment" parameterType="java.util.Map">
 		INSERT INTO CPST_COMMENT

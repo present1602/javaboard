@@ -27,8 +27,8 @@
             </p>
             <div class="info">
                  <span class="time">${post.createdAt} </span>
-                 <span class="view">43</span>
-                 <span class="rec">5</span>
+                 <span class="view">${post.hit}</span>
+                 <!-- <span class="rec">5</span> -->
                  <span class="cmt">${fn:length(comments)} </span>
             </div>
             <div class="replybox">

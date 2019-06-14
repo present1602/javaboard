@@ -59,6 +59,14 @@ public class BoardDAO {
 		return postlist;
 	}
 
+	public List postlist_best() {
+		List<BoardVO> postlist = null;
+		postlist = sqlSession.selectList("selectPostsByHit");
+		
+		return postlist;
+	}
+
+	
 	public void addHit(int postNum) {
 		sqlSession.update("updateHit", postNum);
 	}
@@ -91,6 +99,7 @@ public class BoardDAO {
 		postlist = sqlSession.selectList("selectPostsBySearch", searchText);
 		return postlist;
 	}
+
 
 //	public MemberVO login(@MemberVO memberVO) {
 //		memberVO vo = sqlSession.selectOne("mapper.member.loginById",memberVO);

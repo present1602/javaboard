@@ -75,10 +75,17 @@ public class BoardController {
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		List postlist = boardDAO.postlist();
+		List postlist_best = boardDAO.postlist_best();
 		
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
+		mav.addObject("postlist_best", postlist_best);
 		 
+		Gson gson = new Gson();
+
+		System.out.println("gson postlistbest : ");
+		System.out.println(gson.toJson(postlist_best));
+		
 		return mav;
 	}
 	

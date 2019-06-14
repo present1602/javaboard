@@ -5,7 +5,6 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
   request.setCharacterEncoding("UTF-8");
-
 %>    
 
 <!DOCTYPE html>
@@ -84,6 +83,7 @@
             <ul id="cpstalk_list">
             	 <c:forEach var="post" items="${postlist}" > 
             	<li class="cpstalk_listitem"> 	 
+            	
             		<table>
                     	<tr class="cpstalk_listitem_tr">
                         	<td class="user">
@@ -98,7 +98,7 @@
                                 <div class="info">    
                                     <span class="time">${post.createdAt}</span>
                                     <span class="view">${post.hit}</span>
-                                    <span class="rec">5</span>
+                                    <!-- <span class="rec">5</span> -->
                                     <span class="cmt">${post.comment_count}</span>
 	                            </div>
                             </td>
@@ -111,17 +111,16 @@
  
           </div>   <!--보드박스 끝-->
           <div id="contents_sidebar">
-        	<p>Daily UP</p>
+        	<p>베스트</p>
             <br>
             <ul>
-            	<li><a href="#">미러리스 추천 좀 해주세요</a></li>
-                <li><a href="#">학사편입 질문입니다</a></li>
-                <li><a href="#">토익 만료가 다음달인데 다시 봐야할까요?</a></li>
-                <li><a href="#">앱개발 배우고 싶은데 독학 힘들겠죠?</a></li>
-                <li><a href="#">복수전공과 부전공 차이가 뭘까요?</a></li>
-                <li><a href="#">노트북 가벼우면서 성능 적당히 괜찮은 걸로 추천 좀 해주세요</a></li>
-                <li><a href="#">싱가폴 교환학생 갔다오신분 계신가요?</a></li>
-                <li><a href="#">신입생인데 미련이 좀 남아서 반수해볼까요 해요 해보신분들</a></li>
+            
+  	          <c:forEach var="bestpost" items="${postlist_best}" > 
+            	<li>
+            		<a href="#" class="post_title">${bestpost.title}</a>
+            		<input type="hidden" class="post_num" value=${bestpost.postNum}>
+           		</li>
+               </c:forEach>
             </ul>
         
           </div>   
