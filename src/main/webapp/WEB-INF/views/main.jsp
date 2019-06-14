@@ -78,7 +78,7 @@
             <div id="cpstalk_sub">     
                   
                 <p class="writing">글쓰기</p>
-              
+           
 			</div>
  
             <ul id="cpstalk_list">
@@ -99,7 +99,7 @@
                                     <span class="time">${post.createdAt}</span>
                                     <span class="view">${post.hit}</span>
                                     <span class="rec">5</span>
-                                    <span class="cmt">57</span>
+                                    <span class="cmt">${post.comment_count}</span>
 	                            </div>
                             </td>
                         </tr>	
