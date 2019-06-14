@@ -22,9 +22,12 @@
         	</div>
         	<input type="hidden" id="post_num" value=${post.postNum}>
         	<p class="cpstalk_title">${post.title }</p>
+        	
+        	<c:if test="${post.imageFile}">
+        		<img src="/resources/upload/post/${post.imageFile}" style="width:400px;">
+        	</c:if>
         	<p class="cpstalk_text">${post.content }</p>
-        	<p class="info_tag"><a href="#"><span class="tag">#황금연휴</span></a><a href="#"><span class="tag">#해외여행</span></a>
-            </p>
+        	</p>
             <div class="info">
                  <span class="time">${post.createdAt} </span>
                  <span class="view">${post.hit}</span>

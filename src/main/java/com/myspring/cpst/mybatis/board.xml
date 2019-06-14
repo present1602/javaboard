@@ -23,10 +23,18 @@
 
 	<insert id="insertPost" parameterType="java.util.Map">
 		INSERT INTO CPST_BOARD
-		(postNum, title, content, writer, writerImage, writerNick, writerMajor, imageFile, hit)
-		VALUES
-		(cpst_board_seq.nextval, #{title}, #{content}, ${writer},
-		#{writerImage}, #{writerNick}, #{writerMajor}, #{imageFile}, 0)
+		<choose>
+		   <when test="imageFile != '' and imageFile != null">
+			(postNum, title, content, writer, writerImage, writerNick, writerMajor, imageFile, hit)
+			VALUES (cpst_board_seq.nextval, #{title}, #{content}, ${writer},
+			#{writerImage}, #{writerNick}, #{writerMajor}, #{imageFile}, 0)
+			</when>
+			<when test="imageFile == null">
+			(postNum, title, content, writer, writerImage, writerNick, writerMajor, hit)
+			VALUES (cpst_board_seq.nextval, #{title}, #{content}, ${writer},
+			#{writerImage}, #{writerNick}, #{writerMajor}, 0)
+			</when>
+		</choose>
 	</insert>
 
 

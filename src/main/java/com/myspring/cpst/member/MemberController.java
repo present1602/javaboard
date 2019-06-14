@@ -89,11 +89,9 @@ public class MemberController {
              HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		memberVO = memberDAO.login(member);
+
+		System.out.println("login - memberVO : " + memberVO);
 		
-		System.out.println("in MBCOntroller login : " + memberVO.getEmail());
-		System.out.println("pw : " + memberVO.getPassword());
-		System.out.println("un : " + memberVO.getUsername());
-		  
 		ModelAndView mav = new ModelAndView("main");
 		if(memberVO != null) {
 			HttpSession session = request.getSession();

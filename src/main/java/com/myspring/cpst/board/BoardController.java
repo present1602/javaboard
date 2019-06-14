@@ -54,7 +54,7 @@ import com.myspring.cpst.member.MemberVO;
 
 
 public class BoardController {
-	private static final String UPLOAD_REPO = "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/post";
+	private static final String UPLOAD_REPO = "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/post/";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -242,66 +242,52 @@ public class BoardController {
 //		return commentVO;
 //	}
 	
-
+//	@RequestParam("profile_image") MultipartFile file
+	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public ResponseEntity write(MultipartHttpServletRequest multipartRequest, 
+	public ResponseEntity write(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception {
 		System.out.println("path : /write  in boardController ");
-		
-		multipartRequest.setCharacterEncoding("utf-8");
+		String imageFile = null;
+		request.setCharacterEncoding("utf-8");
 		Map<String,Object> postMap = new HashMap<String, Object>();
-		Enumeration enu=multipartRequest.getParameterNames();
-		while(enu.hasMoreElements()){
-			String name=(String)enu.nextElement();
-			String value=multipartRequest.getParameter(name);
-			postMap.put(name,value);
-			System.out.println("BCTR name : " + name + ", value : " + value);
-		}
+		postMap.put("title", request.getParameter("title"));
+		postMap.put("content", request.getParameter("content"));
 		
 //		UUID uuid = UUID.randomUUID();
+		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request; 
 		
-		String imageFileName= saveImage(multipartRequest);
-		System.out.println("imageFileName : " + imageFileName);
+		Iterator<String> iterator = multipartHttpServletRequest.getFileNames(); 
+		MultipartFile multipartFile = null; 
+		while(iterator.hasNext()){ 
+			multipartFile = multipartHttpServletRequest.getFile(iterator.next()); 
+			if(multipartFile.isEmpty() == false){ 
+					imageFile = multipartFile.getOriginalFilename();
+					
+					File file = new File(UPLOAD_REPO);
+					file = new File(UPLOAD_REPO + imageFile); 
+					multipartFile.transferTo(file);
+						
+			} 
+		}
+
+		postMap.put("imageFile", imageFile);
+		System.out.println("imageFile : " + imageFile);
 		
-		HttpSession session = multipartRequest.getSession();
-		
-		String memberSid = (String) session.getAttribute("memberSid").toString();
-		
+		HttpSession session = request.getSession();
+		String memberSid = (String) session.getAttribute("memberSid").toString();	
 		String memberImage = (String) session.getAttribute("memberImage");
 		
-		System.out.println("memberSid : " + memberSid);
-		System.out.println("memberImage : " + memberImage);
-		
-		postMap.put("imageFile", imageFileName);
-		postMap.put("writer", Integer.parseInt(memberSid));
-//		postMap.put("writer", memberSid);
-		
-		System.out.println("writer class : " + postMap.get("writer").getClass()); 
-		
-		System.out.println("memberSid : " + memberSid);
-		System.out.println("postmap get writer - : " + postMap.get("writer") );
-		
+		postMap.put("writer", Integer.parseInt(memberSid));//		
 		MemberVO member = (MemberVO) memberDAO.getMember(Integer.parseInt(memberSid));
-		
 		
 		postMap.put("writerImage", member.getProfile_image());
 		postMap.put("writerNick", member.getNick());
 		postMap.put("writerMajor", member.getMajor());
-		
-		System.out.println("postmap writer img get : " + member.getProfile_image());
-		System.out.println("postmap writer nick get : " + member.getNick());
-		System.out.println("postmap writer major get : " + member.getMajor());
-		
-//		System.out.println("boardcontroller print all map key value");
-//		for (String name: postMap.keySet()){
-//            String key = name.toString();
-//            String value = postMap.get(name).toString();  
-//            System.out.println(key + " " + value);  
-//		} 
-		
+
 		int result = 0;
 		result = boardDAO.insertPost(postMap);
-		
+//		
 		System.out.println("BoardCTRL insetPost result : " + result);
 		String message;
 		ResponseEntity resEnt=null;
@@ -319,33 +305,87 @@ public class BoardController {
 		
 	}
 	
-		
-	
-	public static String saveImage(MultipartHttpServletRequest multipartRequest) throws IllegalStateException, IOException {
-		String imageFileName= null;
-		Iterator<String> fileNames = multipartRequest.getFileNames();
-		
-		while(fileNames.hasNext()){
-			String fileName = fileNames.next();
-			MultipartFile mFile = multipartRequest.getFile(fileName);
-			imageFileName=mFile.getOriginalFilename();
-			File file = new File(fileName);
-			mFile.transferTo(new File(UPLOAD_REPO +"\\"+imageFileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
-			
-//			if(mFile.getSize()!=0){ //File Null Check
-//				if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
-//					if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
-//							file.createNewFile(); //이후 파일 생성
-//					}
-//				}
-//				mFile.transferTo(new File(UPLOAD_REPO +"\\"+imageFileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
-//			}
-		}
-		return imageFileName;
-	}
 
 	private int getNewCommentNum() throws DataAccessException {
 		return sqlSession.selectOne("selectNewCommentNum");
 	}
 	
 }
+
+
+
+//@RequestMapping(value = "/write", method = RequestMethod.POST)
+//public ResponseEntity write(MultipartHttpServletRequest multipartRequest, 
+//		HttpServletResponse response) throws Exception {
+//	System.out.println("path : /write  in boardController ");
+//	
+//	multipartRequest.setCharacterEncoding("utf-8");
+//	Map<String,Object> postMap = new HashMap<String, Object>();
+//	Enumeration enu=multipartRequest.getParameterNames();
+//	while(enu.hasMoreElements()){
+//		String name=(String)enu.nextElement();
+//		String value=multipartRequest.getParameter(name);
+//		postMap.put(name,value);
+//		System.out.println("BCTR name : " + name + ", value : " + value);
+//	}
+//	
+////	UUID uuid = UUID.randomUUID();
+//	
+//	String imageFileName= saveImage(multipartRequest);
+//	System.out.println("imageFileName : " + imageFileName);
+//	
+//	HttpSession session = multipartRequest.getSession();
+//	
+//	String memberSid = (String) session.getAttribute("memberSid").toString();
+//	
+//	String memberImage = (String) session.getAttribute("memberImage");
+//	
+//	System.out.println("memberSid : " + memberSid);
+//	System.out.println("memberImage : " + memberImage);
+//	
+//	postMap.put("imageFile", imageFileName);
+//	postMap.put("writer", Integer.parseInt(memberSid));
+//	
+//	System.out.println("writer class : " + postMap.get("writer").getClass()); 
+//	
+//	System.out.println("memberSid : " + memberSid);
+//	System.out.println("postmap get writer - : " + postMap.get("writer") );
+//	
+//	MemberVO member = (MemberVO) memberDAO.getMember(Integer.parseInt(memberSid));
+//	
+//	
+//	postMap.put("writerImage", member.getProfile_image());
+//	postMap.put("writerNick", member.getNick());
+//	postMap.put("writerMajor", member.getMajor());
+//	
+//	System.out.println("postmap writer img get : " + member.getProfile_image());
+//	System.out.println("postmap writer nick get : " + member.getNick());
+//	System.out.println("postmap writer major get : " + member.getMajor());
+//	
+////	System.out.println("boardcontroller print all map key value");
+////	for (String name: postMap.keySet()){
+////        String key = name.toString();
+////        String value = postMap.get(name).toString();  
+////        System.out.println(key + " " + value);  
+////	} 
+//	
+//	int result = 0;
+//	result = boardDAO.insertPost(postMap);
+//	
+//	System.out.println("BoardCTRL insetPost result : " + result);
+//	String message;
+//	ResponseEntity resEnt=null;
+//	HttpHeaders responseHeaders = new HttpHeaders();
+//	responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+//	
+//	if(result == 1) {
+//		message = "<script>";
+//		message += " alert('글이 등록되었습니다');";
+//		message += " location.href='/board'";
+//		message +=" </script>";
+//	    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+//	}
+//	return resEnt;
+//	
+//}
+

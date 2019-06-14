@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("memberVO")
 public class MemberVO {
+	
 	private int sid;
 	private String email;
 	private String password;
@@ -99,5 +100,18 @@ public class MemberVO {
 	public void setJoin_date(Date join_date) {
 		this.join_date = join_date;
 	}
+	
+	@Override
+	public String toString() {
+		return "MemberVO [sid=" + sid + ", email=" + email + ", password=" + password + ", nick=" + nick + ", username="
+				+ username + ", phone=" + phone + ", univ=" + univ + ", major=" + major + ", profile_image="
+				+ profile_image + ", join_date=" + join_date + ", getPassword()=" + getPassword() + ", getSid()="
+				+ getSid() + ", getEmail()=" + getEmail() + ", getNick()=" + getNick() + ", getUsername()="
+				+ getUsername() + ", getPhone()=" + getPhone() + ", getUniv()=" + getUniv() + ", getMajor()="
+				+ getMajor() + ", getProfile_image()=" + getProfile_image() + ", getJoin_date()=" + getJoin_date()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
+	
 	
 }

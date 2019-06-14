@@ -24,8 +24,7 @@
 						<img class="profile_main" 
 							src="/resources/upload/${memberImage}" 
 							style="width:100px; height:100px; border-radius:50px">
-						<p>${memberName}</p>
-						<p>${memberSid}</p>
+						<p>${memberNick}</p>
 						
 						<p id="logout_button">
 							<a href="/member/logout">로그아웃</a>
@@ -75,9 +74,8 @@
             
             
             <div id="cpstalk_sub">     
-                  
                 <p class="writing">글쓰기</p>
-           
+                <div class="clear"></div>
 			</div>
  
             <ul id="cpstalk_list">
@@ -93,7 +91,6 @@
                                 <p class="user_info"><span class="user_nick">${post.writerNick} | ${post.writerMajor}</span> </p>
                                 <input type="hidden" class="post_num" value=${post.postNum}>
                                 <p class="text post_title">${post.title} </p>
-                                <p class="info_tag"><a href="#"><span class="tag">#토익</span></a><a href="#"><span class="tag">#토익후기</span></a>
                                 </p>
                                 <div class="info">    
                                     <span class="time">${post.createdAt}</span>
@@ -111,13 +108,13 @@
  
           </div>   <!--보드박스 끝-->
           <div id="contents_sidebar">
-        	<p>베스트</p>
+        	<p style="font-size: 18px; padding: 6px 3px; margin-top: 10px; border-bottom: 1px solid rgba(214,214,214,1);">인기게시물</p>
             <br>
             <ul>
             
   	          <c:forEach var="bestpost" items="${postlist_best}" > 
             	<li>
-            		<a href="#" class="post_title">${bestpost.title}</a>
+            		<a href="#" class="post_title" style="font-weight:bold">${bestpost.title}</a>
             		<input type="hidden" class="post_num" value=${bestpost.postNum}>
            		</li>
                </c:forEach>
