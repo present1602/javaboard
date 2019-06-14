@@ -230,7 +230,6 @@
 <script>
 $(function(){
 	$('.writing').click(function() {
-<<<<<<< HEAD
 		
 		
 		$('#writebox_layer .button_cancel').click(function() {
@@ -249,20 +248,6 @@ $(function(){
 			</c:otherwise>
 		</c:choose>
 	});
-=======
-		<c:choose>
-	    	<c:when test="${not empty memberSid}">
-       		$('#writebox_layer').css('display','block');
-			$('#writebox_layer .button_cancel').click(function() {
-				$('#writebox_layer').css('display','none');
-			});
-			</c:when>
-			<c:otherwise>
-			alert("글쓰기를 위해서는 로그인이 필요합니다");	
-			</c:otherwise>
-		</c:choose>
-	})
->>>>>>> refs/remotes/origin/master
 	
 	$('#writebox_layer').on('click', function (e) {
         //Check whether click on modal-content
