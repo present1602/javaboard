@@ -25,6 +25,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +56,9 @@ public class MemberController {
 	@Autowired
 	MemberVO memberVO ;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup_view(Model model) {
@@ -83,28 +87,58 @@ public class MemberController {
 		
 //		mav.setViewName("redirect:/board");
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("member") MemberVO member,
-            RedirectAttributes rAttr,
-             HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		memberVO = memberDAO.login(member);
+//	if(passwordEncoder.matches(rawPassword, encodedPassword )){
+//		System.out.println("계정정보 일치");
+//		}
 
-		System.out.println("login - memberVO : " + memberVO);
+			
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+		
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		 
+		MemberVO vo = memberDAO.login(email);
 		
 		ModelAndView mav = new ModelAndView("main");
-		if(memberVO != null) {
-			HttpSession session = request.getSession();
-			
-			session.setAttribute("memberSid", memberVO.getSid());
-			session.setAttribute("memberImage", memberVO.getProfile_image());
-			session.setAttribute("memberNick", memberVO.getNick());
-			
-			mav.setViewName("redirect:/board");
+		if(vo != null) {
+			boolean passMatch = passwordEncoder.matches(password, vo.getPassword());
+			if(passMatch == true) {
+				HttpSession session = request.getSession();
+				
+				session.setAttribute("memberSid", vo.getSid());
+				session.setAttribute("memberImage", vo.getProfile_image());
+				session.setAttribute("memberNick", vo.getNick());
+				
+				mav.setViewName("redirect:/board");
+			}
 		}
 		
 		return mav;
 	}
+		
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public ModelAndView login(@ModelAttribute("member") MemberVO member,
+//            RedirectAttributes rAttr,
+//             HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		
+//		memberVO = memberDAO.login(member);
+//
+//		System.out.println("login - memberVO : " + memberVO);
+//		
+//		ModelAndView mav = new ModelAndView("main");
+//		if(memberVO != null) {
+//			HttpSession session = request.getSession();
+//			
+//			session.setAttribute("memberSid", memberVO.getSid());
+//			session.setAttribute("memberImage", memberVO.getProfile_image());
+//			session.setAttribute("memberNick", memberVO.getNick());
+//			
+//			mav.setViewName("redirect:/board");
+//		}
+//		
+//		return mav;
+//	}
 	
 	@RequestMapping(value="/emailCheck", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -140,8 +174,13 @@ public class MemberController {
 		
 		System.out.println("imgUrl : " + imgUrl);
 		Map<String,Object> memberMap = new HashMap<String, Object>();
+		
+		String encryptPassword = passwordEncoder.encode(password);
+		System.out.println("encryptPassword : " + encryptPassword);
+
+
 		memberMap.put("email", email);
-		memberMap.put("password", password);
+		memberMap.put("password", encryptPassword);
 		memberMap.put("nick", nick);
 		memberMap.put("username", username);
 		memberMap.put("phone", phone);
