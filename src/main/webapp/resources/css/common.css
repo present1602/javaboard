@@ -189,13 +189,16 @@ transform: translate(-50%, -50%);
 overflow-y:auto;max-height:calc(80vh);
 padding:18px 30px;}
 
-.cpstalk_title{padding:15px; font-size:1.8em;}
+
 .cpstalk_itembox .cpstalk_top .user_pic{display: table-cell;width:50px;}
 .cpstalk_itembox .cpstalk_top .user_pic img{width:50px; height:50px}
 .cpstalk_itembox .cpstalk_top .user_info{margin-right:10px;display: table-cell; vertical-align: middle;color:rgba(65,128,255,1);font-size:13px;}
 .cpstalk_itembox .cpstalk_top .user_nick {margin-left:10px; padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
 .cpstalk_itembox .cpstalk_top .user_major{padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
-.cpstalk_itembox .cpstalk_text{line-height:2em; font-size:13px; margin:10px 0; padding:5px 10px 15px 10px; ;background:rgba(250,250,255,1); border-radius:5px;}
+.cpstalk_title{padding:15px; font-size:17px; width:400px;}
+.cpstalk_itembox .cpstalk_text{
+	line-height:2em; font-size:13px; margin:10px 0; padding:15px; width:400px;
+}
 
 .replybox{position:relative;margin:10px 0; padding-bottom:20px; border-bottom:1px solid #ccc;}	 
 .replybox .user_pic{padding:10px; float:left;}

@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.myspring.cpst.member.MemberDAO;
-import com.myspring.cpst.member.MemberService;
 import com.myspring.cpst.member.MemberVO;
 
 
@@ -79,7 +79,7 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
-		mav.addObject("postlist_best", postlist_best);
+		
 		 
 		Gson gson = new Gson();
 
@@ -95,9 +95,11 @@ public class BoardController {
 		System.out.println("/board/search »£√‚");
 		System.out.println("searchText : " + searchText);
 		List postlist = boardDAO.postlistBySearch(searchText);
+		List postlist_best = boardDAO.postlist_best();
 		
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
+		mav.addObject("postlist_best", postlist_best);
 		 
 		return mav;
 	}
@@ -119,8 +121,6 @@ public class BoardController {
 		mav.addObject("comments", commentList);
 		return mav;
 	}
-	
-
 	
 	@RequestMapping(value = "/write_comment", method = RequestMethod.POST)	
 	public @ResponseBody ModelAndView write_comment(
@@ -245,8 +245,8 @@ public class BoardController {
 //	@RequestParam("profile_image") MultipartFile file
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public ResponseEntity write(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
+	public ResponseEntity write(MultipartHttpServletRequest request, 
+			MultipartHttpServletRequest response) throws Exception {
 		System.out.println("path : /write  in boardController ");
 		String imageFile = null;
 		request.setCharacterEncoding("utf-8");
@@ -254,16 +254,15 @@ public class BoardController {
 		postMap.put("title", request.getParameter("title"));
 		postMap.put("content", request.getParameter("content"));
 		
-//		UUID uuid = UUID.randomUUID();
-		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request; 
 		
-		Iterator<String> iterator = multipartHttpServletRequest.getFileNames(); 
+		Iterator<String> iterator = request.getFileNames(); 
 		MultipartFile multipartFile = null; 
 		while(iterator.hasNext()){ 
-			multipartFile = multipartHttpServletRequest.getFile(iterator.next()); 
+			multipartFile = request.getFile(iterator.next()); 
 			if(multipartFile.isEmpty() == false){ 
-					imageFile = multipartFile.getOriginalFilename();
-					
+					String filename = multipartFile.getOriginalFilename();
+					UUID uuid = UUID.randomUUID();
+					imageFile = uuid + filename;
 					File file = new File(UPLOAD_REPO);
 					file = new File(UPLOAD_REPO + imageFile); 
 					multipartFile.transferTo(file);

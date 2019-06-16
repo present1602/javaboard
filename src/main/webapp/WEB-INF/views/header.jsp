@@ -25,7 +25,7 @@
 
 <div id="header">
 	<div id="in_header">
-		<h1 class="logo" style="font-family: sans-serif; color: #fff">CAMPUS TALK</h1>
+		<a href="/board"><h1 class="logo" style="font-family: sans-serif; color: #fff">CAMPUS TALK</h1></a>
             
 		<div class="searchbox">
 			<form id="top_searchform" name="top_searchform" method="post" action="/board/search">

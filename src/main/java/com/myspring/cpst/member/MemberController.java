@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +37,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.myspring.cpst.member.MemberService;
-import com.myspring.cpst.member.MemberVO;
 
+import com.myspring.cpst.member.MemberVO;
 
 
 @Controller
@@ -119,7 +119,6 @@ public class MemberController {
 		}else {
 			System.out.println("chk em false");
 		}
-//		System.out.println("email : " + email);
 		return msg;
 	}
 	
@@ -137,7 +136,7 @@ public class MemberController {
 			) {
 		System.out.println("/signup post");
 		
-		String imgUrl = MemberService.saveImage(file);
+		String imgUrl = saveImage(file);
 		
 		System.out.println("imgUrl : " + imgUrl);
 		Map<String,Object> memberMap = new HashMap<String, Object>();
@@ -173,31 +172,39 @@ public class MemberController {
 		return resEnt;
 
 	}
-	
-//	public static String saveImage(MultipartFile file) {
-//		String imageUrl = null;
-//		try {
-//			String originFilename = file.getOriginalFilename();
-//			Long size = file.getSize();
-//			System.out.println("originFilename : " + originFilename);
-//			System.out.println("size : " + size);
-//			
-//			writeFile(file, originFilename);
-//			imageUrl = originFilename;
-//		}catch (Exception e) {
-//
-//			throw new RuntimeException(e);
-//		}
-//		return imageUrl;
-//	}
-//
-//	private static void writeFile(MultipartFile file, String saveFileName)
-//					throws IOException{
-//		byte[] data = file.getBytes();
-//		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + "/" + saveFileName);
-//		fos.write(data);
-//		fos.close();
-//		
-//	}
+
+	public static String saveImage(MultipartFile file) {
+		String imageUrl = "profile_default2.jpg";
+		try {
+			String originFilename = file.getOriginalFilename();
+			Long size = file.getSize();
+			System.out.println("originFilename : " + originFilename);
+			UUID uuid = UUID.randomUUID();
+			String saveImageName = uuid + originFilename;
+			System.out.println("size : " + size);
+			if(size != 0) {
+				
+				writeFile(file, saveImageName);
+				imageUrl = saveImageName;	
+			}
+			
+		}catch (Exception e) {
+			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
+			// 편의상 RuntimeException을 던진다.
+			// throw new FileUploadException();	
+			throw new RuntimeException(e);
+		}
+		return imageUrl;
+	}
+
+	private static void writeFile(MultipartFile file, String saveFileName)
+					throws IOException{
+		
+		byte[] data = file.getBytes();
+		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + "/" + saveFileName);
+		fos.write(data);
+		fos.close();
+		
+	}
 
 }

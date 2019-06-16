@@ -10,7 +10,6 @@
 
 %>    
 
-
   	<span id="cpstalk_layer_close"><img src="/resources/images/cpstalk_layer_close.png"  style="outline:none" alt="" /></span>
 	<div class="cpstalk_itembox">       
         	<div class="cpstalk_top">
@@ -20,14 +19,17 @@
                 
                 <div class="clear"></div>
         	</div>
-        	<input type="hidden" id="post_num" value=${post.postNum}>
-        	<p class="cpstalk_title">${post.title }</p>
         	
-        	<c:if test="${post.imageFile}">
+			<input type="hidden" id="post_num" value=${post.postNum}>
+			
+        	<p class="cpstalk_title" style="width:85%">${post.title }</p>
+        	
+        	<c:if test="${post.imageFile !=null }">
         		<img src="/resources/upload/post/${post.imageFile}" style="width:400px;">
         	</c:if>
-        	<p class="cpstalk_text">${post.content }</p>
+        	<p class="cpstalk_text" style="width:85%">${post.content }</p>
         	</p>
+        	
             <div class="info">
                  <span class="time">${post.createdAt} </span>
                  <span class="view">${post.hit}</span>
@@ -74,7 +76,6 @@
 						</ul>
 					</div>
 		</div>
-
 	</div>
-	
+
 	

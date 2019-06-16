@@ -10,7 +10,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myspring.cpst.member.MemberService;
 import com.myspring.cpst.member.MemberVO;
 import com.myspring.cpst.board.BoardVO;
 //import com.myspring.cpst.member.vo.MemberVO;
@@ -98,6 +97,12 @@ public class BoardDAO {
 		List<BoardVO> postlist = null;
 		postlist = sqlSession.selectList("selectPostsBySearch", searchText);
 		return postlist;
+	}
+
+	public int updatePost(Map<String, Object> postMap) {
+		int result = 0;
+		result = sqlSession.update("updatePost", postMap);
+		return result;
 	}
 
 

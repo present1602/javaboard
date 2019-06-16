@@ -160,10 +160,11 @@
 .write_box .write_btn .btn_cancel{width:135px; height:40px; background-color:#4c4c4c; font-size:16px; color:#fff; font-weight:bold; text-align:center; border-radius:40px; border:0 none; margin:0 3px; cursor:pointer;}
 */
 
-#write_box .write_button .button_ok{width:90px; height:34px; background-color:rgba(65,128,255,1); font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
+.button_ok{width:90px; height:34px; background-color:rgba(65,128,255,1); font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
+.button_del{width:90px; height:34px; background-color:#4c4c4c; font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
+
 #write_box .write_button .button_modify{width:90px; height:34px; background-color:rgba(65,128,255,1); font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
 #write_box .write_button .button_cancel{width:90px; height:34px; background-color:#ccc; font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
-#write_box .write_button .button_del{width:90px; height:34px; background-color:#4c4c4c; font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
 
 .in_writebox .toptag_item{}
 .in_writebox .taglist_item{}
@@ -212,8 +213,8 @@
                 </ul>
                 -->
 	            <div class="write_button">
-	                <input type="submit" title="" name="" value="확인" class="button_ok"/>
-	                <input type="button" title="" name="" value="취소" class="button_cancel" onclick="" />
+	                <input type="submit" value="확인" class="button_ok"/>
+	                <input type="button" value="취소" class="button_cancel" onclick="" />
 	            </div> 
 	            
 	        </div>
@@ -297,7 +298,7 @@ $(function() {
 	$(".post_title").click(function(e){
 		
 		var parentNode = e.target.parentElement;
-		postNum = parentNode.getElementsByClassName("post_num")[0].value;
+		var postNum = parentNode.getElementsByClassName("post_num")[0].value;
 		$.ajax({
 	        url:'/board/' + postNum
 	            ,type:"get"
@@ -358,9 +359,10 @@ $(function() {
 		
 	});
 	
-	
-	
 });
+
+
+
 </script>
 
 
