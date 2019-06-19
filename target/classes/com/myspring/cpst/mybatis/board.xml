@@ -78,6 +78,10 @@
 		</choose>
 	</update>
 	
+	<delete id="deletePost">
+		DELETE FROM cpst_board WHERE postNum = #{postNum}
+	</delete>
+	
 	<update id="deleteFile">
 		update cpst_board set imageFile = null where postNum = #{postNum}
 	</update>
@@ -114,7 +118,7 @@
 		select * from cpst_comment where commentNum = #{commentNum}
 	</select>
 	
-  <select id="selectNewCommentNum" resultType="int"  >
+    <select id="selectNewCommentNum" resultType="int"  >
 		<![CDATA[
 			SELECT  max(commentNum)+1 from cpst_comment		
 		]]>
@@ -123,13 +127,3 @@
 </mapper>
 
 
-	<!-- update cpst_board 
-		<choose>
-		   <when test="imageFile != '' and imageFile != null">
-			set (title, content, imageFile) VALUES (#{title}, #{content}, #{imageFile})
-			</when>
-			<when test="imageFile == null">
-			set (title, content) VALUES (#{title}, #{content})
-			</when>
-		</choose>
-		where postNum = #{postNum} -->

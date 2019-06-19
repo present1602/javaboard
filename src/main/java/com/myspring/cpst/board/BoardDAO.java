@@ -106,6 +106,12 @@ public class BoardDAO {
 		return result;
 	}
 
+	public int deletePost(int postNum) {
+		int result = 0;
+		result = sqlSession.delete("deletePost", postNum);
+		return result;
+	}
+
 
 
 //	public MemberVO login(@MemberVO memberVO) {

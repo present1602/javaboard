@@ -45,7 +45,7 @@
 				        		<p><input type="file" name="image_upload" id="upload_image_in_post" style="display:none;"></p>
 				        	</c:when>
 				        	<c:otherwise>
-				        		<img src="" id="image_view_in_post">
+				        		<img src="" id="image_preview_in_post">
 				        		<p><input type="file" name="image_upload" id="upload_image_in_post"></p>
 				        	</c:otherwise>
 		        		</c:choose>

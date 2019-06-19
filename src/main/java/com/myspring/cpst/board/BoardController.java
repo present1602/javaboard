@@ -256,6 +256,23 @@ public class BoardController {
 		return message;
 		
 	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String delete(@RequestParam(value="postNum") String postNum) throws Exception {
+		System.out.println("path : /delete  in boardController ");
+		
+		int result = 0;
+		result = boardDAO.deletePost(Integer.parseInt(postNum));
+		
+		String message = "";
+		if(result == 1) {
+			message = "포스팅이 삭제되었습니다";
+		}
+		return message;
+		
+	}
+	
 
 	@RequestMapping(value = "/delete_file", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -297,9 +314,6 @@ public class BoardController {
 			}
 			
 		}catch (Exception e) {
-			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
-			// 편의상 RuntimeException을 던진다.
-			// throw new FileUploadException();	
 			throw new RuntimeException(e);
 		}
 		return imageUrl;

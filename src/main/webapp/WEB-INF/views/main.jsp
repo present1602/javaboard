@@ -302,6 +302,9 @@ $(function() {
 	                    imagePreview(this, "#image_preview_in_post");
 	                });
 	            	
+	            	$("#post_delete_btn").click(function(){
+	                    delete_post(postNum);
+	                });
 	            	
 	            	$("#post_update_btn").click(function(){
 	            		update_post();
@@ -336,8 +339,8 @@ function delete_file(postNum){
 			alert("del file ajax err")
 		}
 	});
-	
 }
+
 function update_post(){
 	var form = new FormData(document.getElementById('post_update_form'));
 	$.ajax({
@@ -355,6 +358,25 @@ function update_post(){
 	   	}
 	});
 }
+
+
+function delete_post(postNum){
+	$.ajax({
+	    url:'/board/delete'
+	    ,type:"post"
+	    ,data : {"postNum" : postNum}
+	   	,success:function(msg){
+	  		console.log("post delete ajax suc");
+	  		alert(msg);
+	  		location.href="/board";
+	  		
+	   	},error:function(err){
+	   		alert('post delete ajax err');
+	       	alert(JSON.stringify(err));
+	   	}
+	});
+}
+
 
 function handleComment(){
 	$("#reply_button").click(function(e){
