@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"   isELIgnored="false"  %>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+  
 <%@ page session="true" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
@@ -15,14 +17,15 @@
 </head>
 <body>
   <%@ include file="header.jsp" %>
-  
+
+  </p>
   <div id="mainboard">
 		<div id="left_sidebar">
 			<div class="user_area">
 				<c:choose>
 					<c:when test="${memberSid != null}">
 						<img class="profile_main" 
-							src="/resources/upload/${memberImage}" 
+							src="/resources/upload/profile/${memberImage}" 
 							style="width:100px; height:100px; border-radius:50px">
 						<p>${memberNick}</p>
 						
@@ -77,15 +80,18 @@
                 <p class="writing">글쓰기</p>
                 <div class="clear"></div>
 			</div>
- 
+			<c:if test ="${fn:length(postlist)==0}">
+            	<h2 style="padding:50px;text-align:center">검색 결과가 없습니다</h2>
+           	</c:if>
             <ul id="cpstalk_list">
-            	 <c:forEach var="post" items="${postlist}" > 
+            	
+            	 <c:forEach var="post" items="${postlist}" >
             	<li class="cpstalk_listitem"> 	 
             	
             		<table>
                     	<tr class="cpstalk_listitem_tr">
                         	<td class="user">
-                            	<img class="user_pic" src="/resources/upload/${post.writerImage}">
+                            	<img class="user_pic" src="/resources/upload/profile/${post.writerImage}">
                        		</td>
                         	<td class="cpstalk_itemsummary">
                                 <p class="user_info"><span class="user_nick">${post.writerNick} | ${post.writerMajor}</span> </p>
@@ -177,7 +183,7 @@
 #write_box .write_button{margin-top:30px; text-align:center;}
 
 
-.preview_imagelist img{max-width:120px; max-height:120px; padding:10px;}
+#preview_image_box img{max-width:120px; max-height:120px; padding:10px;}
 
 </style> 
 
@@ -189,10 +195,9 @@
 	        </h2>
 	            <input type="text" name="title" value="" id="wr_subject" required class="write_title" placeholder="제목" />
 	            <div class="write_content_box">
-	                <textarea id="wr_content" name="content" class="write_content" maxlength="65536">
-	                </textarea>
-	                <div class="preview_imagelist" style="border:1px solid #e3e3e3">
-	                                        
+	                <textarea id="wr_content" name="content" class="write_content" maxlength="65536"></textarea>
+	                <div id="preview_image_box" style="border:1px solid #e3e3e3">
+	                     <img id="preview_image">                  
 	                </div>
 	                <input type="file" name="image_upload" id="cpstalk_upload_image">
 	            
@@ -255,44 +260,23 @@ $(function(){
 })
 
 
-function cpstalkImageUploadClick(){
-    var imageinput = document.getElementById("cpstalk_upload_image");
-    imageinput.click();
-}
-//images preview in browser
-$(function() {    
-    var imagePreview = function(input, insertImagePreview) {
-    	/*
-    	var fileinput = document.getElementById("cpstalk_upload_file");
-    	var textinput = document.getElementById("filename");
-    	textinput.value = fileinput.value;
-    	*/
-        if (input.files) {
-            var filesAmount = input.files.length;
-            for (i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(insertImagePreview);
-                }
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
+ 
+ var imagePreview = function(input, imgNode) {
+ 	if(input.files && input.files[0]){
+ 		var file = input.files[0];	
+ 		var reader = new FileReader();
+ 		reader.onload = function(e) {
+ 			$(imgNode).attr('src', e.target.result);
+ 	    }
+ 		reader.readAsDataURL(input.files[0]);
+ 	}
+ };
 
-    };
-
-    $('#cpstalk_upload_image').on('change', function(){
-        imagePreview(this, 'div.preview_imagelist');
-    });
-});
+ $('#cpstalk_upload_image').on('change', function(){
+     imagePreview(this, "#preview_image");
+ });
 
 
-function cpstalkFileUploadClick(){
-    var fileinput = document.getElementById("cpstalk_upload_file");
-    fileinput.click();
-}
-function cpstalkFileHandleChange(){
-	
-}
 
 $(function() {   
 	$(".post_title").click(function(e){
@@ -308,48 +292,24 @@ $(function() {
 	            	postLayer.innerHTML = post;
 	            	postLayer.style.display = "block";
 	            	
-	            	$("#reply_button").click(function(e){
-	            		
-	            		$.ajax({
-	            			url:'/board/write_comment'
-	            			,type:"post"
-	            			,data: {postNum : $("#post_num").val(),
-	            				commentContent : $("#commentContent").val(),}
-	            			/* ,contentType: "application/x-www-form-urlencoded; charset=UTF-8" */
-	            			,success:function(data){
-	            				console.log("cmt ajax suc")
-	            				$("#reply_wrap").html(data)
-	            				
-	            			/* 	console.log("data : " );
-	            				var parseData = JSON.parse(data);
-	            				console.log("p cont : " + parseData.content);
-	            				console.log("p created : " + parseData.createdAt);
-	            				console.log("p nick : "  + parseData.writerNick);
-	            				var echoComment = "<li>";
-	            				
-	            				var echoComment += "</li>"; */
-	            				
-	/*             				var parseData = JSON.parse(data);
-	            				alert("parseData.content : " + parseData.content)
-	 */
-	 							/* var cont = parseData.content;
-	            				var nick =parseData.writerNick;
-	            				var image = parseData.writerImage;
-	            				var createdAt = parseData.createdAt;
-	            				alert("cont : " + cont + ", nick : " + nick + ", create : " + createdAt); */
-	            			}
-	            			,error:function(err){
-	            				alert("ajax err");
-	            				alert(JSON.stringify(err));
-	            			}
-	            		}); 
+	            	handleComment();
+	            	
+	            	$("#del_file").click(function(){
+	            		delete_file(postNum);
+	            	});
+	            	
+	            	$("#upload_image_in_post").on('change', function(){
+	                    imagePreview(this, "#image_preview_in_post");
+	                });
+	            	
+	            	
+	            	$("#post_update_btn").click(function(){
+	            		update_post();
 	            	});
 	            	
 	            	$('#cpstalk_layer_close').click(function() {
 	            		postLayer.style.display = "none";
-	         		});
-	            	
-	            	
+            		});
 	            }
 	            ,error:function(err){
 	            	alert('postnum ajax err');
@@ -361,6 +321,79 @@ $(function() {
 	
 });
 
+function delete_file(postNum){
+	$("#upload_image_in_post").css("display", "block");
+	$("#del_file").css("display", "none");
+	$("#image_view_in_post").attr("src", "");
+	$.ajax({
+		url:'/board/delete_file'
+	    ,type:"post"
+	    ,data : {"postNum":postNum}
+		,success : function(msg){
+			alert(msg);	
+		} 
+		,error: function(err){
+			alert("del file ajax err")
+		}
+	});
+	
+}
+function update_post(){
+	var form = new FormData(document.getElementById('post_update_form'));
+	$.ajax({
+	    url:'/board/update'
+	    ,type:"post"
+	    ,data : form
+	    ,contentType:false
+	    ,processData:false
+	   	,success:function(msg){
+	  		console.log("post update ajax suc");
+	  		alert(msg);
+	   	},error:function(err){
+	   		alert('postupdate ajax err');
+	       	alert(JSON.stringify(err));
+	   	}
+	});
+}
+
+function handleComment(){
+	$("#reply_button").click(function(e){
+		
+		$.ajax({
+			url:'/board/write_comment'
+			,type:"post"
+			,data: {postNum : $("#post_num").val(),
+				commentContent : $("#commentContent").val(),}
+			,success:function(data){
+				console.log("cmt ajax suc");
+				$("#reply_wrap").html(data);
+				
+			/* 	console.log("data : " );
+				var parseData = JSON.parse(data);
+				console.log("p cont : " + parseData.content);
+				console.log("p created : " + parseData.createdAt);
+				console.log("p nick : "  + parseData.writerNick);
+				var echoComment = "<li>";
+				
+				var echoComment += "</li>"; */
+				
+/*             				var parseData = JSON.parse(data);
+				alert("parseData.content : " + parseData.content)
+*/
+					/* var cont = parseData.content;
+				var nick =parseData.writerNick;
+				var image = parseData.writerImage;
+				var createdAt = parseData.createdAt;
+				alert("cont : " + cont + ", nick : " + nick + ", create : " + createdAt); */
+			}
+			,error:function(err){
+				alert("ajax err");
+				alert(JSON.stringify(err));
+			}
+		}); 
+	});
+	
+}
 
 
 </script>

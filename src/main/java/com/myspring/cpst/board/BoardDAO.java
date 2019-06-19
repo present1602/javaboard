@@ -84,6 +84,7 @@ public class BoardDAO {
 		}
 		
 		
+		
 		return commentVO;
 	}
 
@@ -104,6 +105,7 @@ public class BoardDAO {
 		result = sqlSession.update("updatePost", postMap);
 		return result;
 	}
+
 
 
 //	public MemberVO login(@MemberVO memberVO) {

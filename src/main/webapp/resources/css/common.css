@@ -195,7 +195,7 @@ padding:18px 30px;}
 .cpstalk_itembox .cpstalk_top .user_info{margin-right:10px;display: table-cell; vertical-align: middle;color:rgba(65,128,255,1);font-size:13px;}
 .cpstalk_itembox .cpstalk_top .user_nick {margin-left:10px; padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
 .cpstalk_itembox .cpstalk_top .user_major{padding:2px 3px;color:rgba(65,128,255,1);font-size:13px;}
-.cpstalk_title{padding:15px; font-size:17px; width:400px;}
+.cpstalk_title{padding:10px; margin-top:10px; font-size:17px; width:400px;}
 .cpstalk_itembox .cpstalk_text{
 	line-height:2em; font-size:13px; margin:10px 0; padding:15px; width:400px;
 }
@@ -225,6 +225,8 @@ background-color:rgba(65,128,255,1); border:0; font-size:13px; color:#fff; margi
 .replylist_to_reply{display:none; }
 .replylist_to_reply .replybox{border-top:1px solid rgba(228,228,228,1); border-bottom:1px solid rgba(228,228,228,1)}
 .icon_reply{float:left}
+
+
 
 
 

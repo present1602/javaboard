@@ -54,7 +54,8 @@ import com.myspring.cpst.member.MemberVO;
 
 
 public class BoardController {
-	private static final String UPLOAD_REPO = "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/post/";
+	private static final String UPLOAD_REPO 
+	= "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/post/";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -73,7 +74,6 @@ public class BoardController {
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 
 		List postlist = boardDAO.postlist();
 		List postlist_best = boardDAO.postlist_best();
@@ -81,10 +81,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("postlist", postlist);
 		mav.addObject("postlist_best", postlist_best);
-		
-		 
 		Gson gson = new Gson();
-
 		System.out.println("gson postlistbest : ");
 		System.out.println(gson.toJson(postlist_best));
 		
@@ -164,87 +161,6 @@ public class BoardController {
 		return mav;
 	}
 	
-//	@RequestMapping(value = "/write_comment", method = RequestMethod.POST)	
-//	public @ResponseBody String write_comment(
-//			@RequestParam(value="commentContent") String commentContent, 
-//			@RequestParam(value="postNum") String postNum, 
-//			HttpServletRequest request) throws Exception {
-//		System.out.println("1. write_comment pathv ");
-//		System.out.println("2. postNum : " + postNum);
-//		System.out.println("3. commentContent : " + commentContent);
-//		
-//		Map<String,Object> commentMap = new HashMap<String, Object>();
-//		
-//		commentMap.put("post", postNum);
-//		commentMap.put("content", commentContent);
-//		System.out.println("postNum : " + postNum);
-//		System.out.println("commentContent : " + commentContent);
-//		
-//		
-//		int commentNum = getNewCommentNum();
-//		
-//		commentMap.put("commentNum", commentNum);
-//		
-//		HttpSession session = request.getSession();
-//		int writerSid = (Integer) session.getAttribute("memberSid");
-//		String writerImage = (String) session.getAttribute("memberImage");
-//		String writerNick = (String) session.getAttribute("memberNick");
-//		
-//		System.out.println("1. memberSid : " + writerSid);
-//		System.out.println("1. memberImage : " + writerImage);
-//		System.out.println("1. memberNick : " + writerNick);
-//	
-//		commentMap.put("writerSid", writerSid);
-//		commentMap.put("writerImage", writerImage);
-//		commentMap.put("writerNick", writerNick);
-//	
-//		CommentVO commentVO = boardDAO.addComment(commentMap);
-//		System.out.println(commentVO.getContent());
-//		System.out.println(commentVO.getCreatedAt());
-//		
-//		Gson gson = new Gson();
-//		String json = gson.toJson(commentVO);
-//		return json;
-//	}
-	
-//	@RequestMapping("/write_comment")
-//	public CommentVO write_comment(@RequestParam String commentData, @RequestParam String postNum, 
-//			HttpServletRequest request) throws Exception {
-//		System.out.println("1. write_comment pathv ");
-//		System.out.println("2. postNum : " + postNum);
-//		System.out.println("3. commentData : " + commentData);
-//		
-//		Map<String,Object> commentMap = new HashMap<String, Object>();
-//		
-//		commentMap.put("post", postNum);
-//		commentMap.put("content", commentData);
-//		int commentNum = getNewCommentNum();
-//		System.out.println("3. commentNum : " + commentNum);
-//		commentMap.put("commentNum", commentNum);
-//		
-//		HttpSession session = request.getSession();
-//		int writerSid = (Integer) session.getAttribute("memberSid");
-//		String writerImage = (String) session.getAttribute("memberImage");
-//		String writerNick = (String) session.getAttribute("memberNick");
-//		
-//		System.out.println("4. memberSid : " + writerSid);
-//		System.out.println("4. memberImage : " + writerImage);
-//		System.out.println("4. memberNick : " + writerNick);
-//		
-//		commentMap.put("writerSid", writerSid);
-//		commentMap.put("writerImage", writerImage);
-//		commentMap.put("writerNick", writerNick);
-//		
-//		
-//		
-//		CommentVO commentVO = boardDAO.addComment(commentMap);
-//		
-//		
-//		
-//		return commentVO;
-//	}
-	
-//	@RequestParam("profile_image") MultipartFile file
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public ResponseEntity write(MultipartHttpServletRequest request, 
@@ -255,7 +171,6 @@ public class BoardController {
 		Map<String,Object> postMap = new HashMap<String, Object>();
 		postMap.put("title", request.getParameter("title"));
 		postMap.put("content", request.getParameter("content"));
-		
 		
 		Iterator<String> iterator = request.getFileNames(); 
 		MultipartFile multipartFile = null; 
@@ -287,9 +202,9 @@ public class BoardController {
 		postMap.put("writerMajor", member.getMajor());
 
 		int result = 0;
-		result = boardDAO.insertPost(postMap);
-//		
+		result = boardDAO.insertPost(postMap);		
 		System.out.println("BoardCTRL insetPost result : " + result);
+		
 		String message;
 		ResponseEntity resEnt=null;
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -306,87 +221,101 @@ public class BoardController {
 		
 	}
 	
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String update(
+			@RequestParam("post_num") String post_num,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content,
+			@RequestParam("image_upload") MultipartFile file
+			) throws Exception {
+		System.out.println("path : /update  in boardController ");
+		
+		Map<String,Object> postMap = new HashMap<String, Object>();
+		postMap.put("postNum", Integer.parseInt(post_num));
+		postMap.put("title", title);
+		postMap.put("content", content);
+		
+		String img = null;
+		System.out.println("current postimage from db  : " + img);
+		if(file != null) {
+			img = saveImage(file);
+		}
+		
+		postMap.put("imageFile", img);
+			
+		int result = 0;
+		result = boardDAO.updatePost(postMap);
+		
+		String message = "";
+		
+		if(result == 1) {
+			message = "포스팅이 수정되었습니다";
+		}
+		return message;
+		
+	}
 
+	@RequestMapping(value = "/delete_file", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String delete_file(@RequestParam(value="postNum") String postNum)  {
+		String message = "";
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		int result = 0;
+		result = sqlSession.update("deleteFile", Integer.parseInt(postNum));
+				
+		if(result == 1) {
+			message = "이미지가 삭제되었습니다";
+		}
+		return message;
+		
+	}		
+	
+	
+	
 	private int getNewCommentNum() throws DataAccessException {
 		return sqlSession.selectOne("selectNewCommentNum");
 	}
+
+	private String saveImage(MultipartFile file) {
+		String imageUrl = null;		
+		try {
+			String originFilename = file.getOriginalFilename();
+			Long size = file.getSize();
+			System.out.println("originFilename : " + originFilename);
+			UUID uuid = UUID.randomUUID();
+			String saveImageName = uuid + originFilename;
+			System.out.println("size : " + size);
+			if(size != 0) {
+				
+				writeFile(file, saveImageName);
+				imageUrl = saveImageName;	
+			}
+			
+		}catch (Exception e) {
+			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
+			// 편의상 RuntimeException을 던진다.
+			// throw new FileUploadException();	
+			throw new RuntimeException(e);
+		}
+		return imageUrl;
+	}
 	
+	private static void writeFile(MultipartFile file, String saveFileName)
+			throws IOException{
+		
+		byte[] data = file.getBytes();
+		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + saveFileName);
+		fos.write(data);
+		fos.close();
+	
+	}
+			
 }
 
 
-
-//@RequestMapping(value = "/write", method = RequestMethod.POST)
-//public ResponseEntity write(MultipartHttpServletRequest multipartRequest, 
-//		HttpServletResponse response) throws Exception {
-//	System.out.println("path : /write  in boardController ");
-//	
-//	multipartRequest.setCharacterEncoding("utf-8");
-//	Map<String,Object> postMap = new HashMap<String, Object>();
-//	Enumeration enu=multipartRequest.getParameterNames();
-//	while(enu.hasMoreElements()){
-//		String name=(String)enu.nextElement();
-//		String value=multipartRequest.getParameter(name);
-//		postMap.put(name,value);
-//		System.out.println("BCTR name : " + name + ", value : " + value);
-//	}
-//	
-////	UUID uuid = UUID.randomUUID();
-//	
-//	String imageFileName= saveImage(multipartRequest);
-//	System.out.println("imageFileName : " + imageFileName);
-//	
-//	HttpSession session = multipartRequest.getSession();
-//	
-//	String memberSid = (String) session.getAttribute("memberSid").toString();
-//	
-//	String memberImage = (String) session.getAttribute("memberImage");
-//	
-//	System.out.println("memberSid : " + memberSid);
-//	System.out.println("memberImage : " + memberImage);
-//	
-//	postMap.put("imageFile", imageFileName);
-//	postMap.put("writer", Integer.parseInt(memberSid));
-//	
-//	System.out.println("writer class : " + postMap.get("writer").getClass()); 
-//	
-//	System.out.println("memberSid : " + memberSid);
-//	System.out.println("postmap get writer - : " + postMap.get("writer") );
-//	
-//	MemberVO member = (MemberVO) memberDAO.getMember(Integer.parseInt(memberSid));
-//	
-//	
-//	postMap.put("writerImage", member.getProfile_image());
-//	postMap.put("writerNick", member.getNick());
-//	postMap.put("writerMajor", member.getMajor());
-//	
-//	System.out.println("postmap writer img get : " + member.getProfile_image());
-//	System.out.println("postmap writer nick get : " + member.getNick());
-//	System.out.println("postmap writer major get : " + member.getMajor());
-//	
-////	System.out.println("boardcontroller print all map key value");
-////	for (String name: postMap.keySet()){
-////        String key = name.toString();
-////        String value = postMap.get(name).toString();  
-////        System.out.println(key + " " + value);  
-////	} 
-//	
-//	int result = 0;
-//	result = boardDAO.insertPost(postMap);
-//	
-//	System.out.println("BoardCTRL insetPost result : " + result);
-//	String message;
-//	ResponseEntity resEnt=null;
-//	HttpHeaders responseHeaders = new HttpHeaders();
-//	responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-//	
-//	if(result == 1) {
-//		message = "<script>";
-//		message += " alert('글이 등록되었습니다');";
-//		message += " location.href='/board'";
-//		message +=" </script>";
-//	    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-//	}
-//	return resEnt;
-//	
-//}
 

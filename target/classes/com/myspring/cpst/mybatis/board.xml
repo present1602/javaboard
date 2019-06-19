@@ -66,16 +66,20 @@
 	</select>
 	
 	<update id="updatePost">
-	update cpst_board 
+		update cpst_board
 		<choose>
-		   <when test="imageFile != '' and imageFile != null">
-			set (title, content, imageFile) VALUES (#{title}, #{content}, #{imageFile})
+			<when test="imageFile != '' and imageFile != null">
+			 	set title = #{title}, content = #{content}, imageFile= #{imageFile} 
+				where postNum = #{postNum}
 			</when>
-			<when test="imageFile == null">
-			set (title, content) VALUES (#{title}, #{content})
-			</when>
+			<otherwise>
+				set title = #{title}, content = #{content} where postNum = #{postNum}
+  		    </otherwise>
 		</choose>
-		where postNum = #{postNum}
+	</update>
+	
+	<update id="deleteFile">
+		update cpst_board set imageFile = null where postNum = #{postNum}
 	</update>
 	
 	<select id="selectPostsByHit" resultType="com.myspring.cpst.board.BoardVO">
@@ -83,8 +87,6 @@
        SELECT * from cpst_board order by hit desc FETCH FIRST 5 rows only
     ]]>
 	</select>
-	
-	
 	
 	<update id="updateHit">
     <![CDATA[
@@ -120,3 +122,14 @@
 	
 </mapper>
 
+
+	<!-- update cpst_board 
+		<choose>
+		   <when test="imageFile != '' and imageFile != null">
+			set (title, content, imageFile) VALUES (#{title}, #{content}, #{imageFile})
+			</when>
+			<when test="imageFile == null">
+			set (title, content) VALUES (#{title}, #{content})
+			</when>
+		</choose>
+		where postNum = #{postNum} -->

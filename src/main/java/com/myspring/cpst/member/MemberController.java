@@ -48,7 +48,8 @@ import com.myspring.cpst.member.MemberVO;
 
 public class MemberController {
 //	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
-	private static final String UPLOAD_REPO = "D:/project/eclipsews/spring2/src/main/webapp/resources/upload";
+	private static final String UPLOAD_REPO 
+	= "D:/project/eclipsews/spring2/src/main/webapp/resources/upload/profile/";
 	
 	@Autowired
 	private MemberDAO memberDAO;
@@ -83,13 +84,6 @@ public class MemberController {
 		return "redirect:/board";
 	
 	}
-		
-		
-//		mav.setViewName("redirect:/board");
-	
-//	if(passwordEncoder.matches(rawPassword, encodedPassword )){
-//		System.out.println("계정정보 일치");
-//		}
 
 			
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -240,7 +234,7 @@ public class MemberController {
 					throws IOException{
 		
 		byte[] data = file.getBytes();
-		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + "/" + saveFileName);
+		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + saveFileName);
 		fos.write(data);
 		fos.close();
 		

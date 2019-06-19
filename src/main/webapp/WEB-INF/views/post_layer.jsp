@@ -8,27 +8,67 @@
 <%
   request.setCharacterEncoding("UTF-8");
 
-%>    
+%>   
+<style> 
+#image_view_in_post{width:400px;}
+#image_preview_in_post{width:100px;}
+</style>
+<script src="<c:url value="/resources/js/autosize.js" />"></script>
 
   	<span id="cpstalk_layer_close"><img src="/resources/images/cpstalk_layer_close.png"  style="outline:none" alt="" /></span>
 	<div class="cpstalk_itembox">       
         	<div class="cpstalk_top">
-                <p class="user_pic"><img src="/resources/upload/${post.writerImage} " style="border-radius:50px">
+                <p class="user_pic"><img src="/resources/upload/profile/${post.writerImage} " style="border-radius:50px">
                 </p>
                 <p class="user_info"><span class="user_nick">${post.writerNick}</span> | <span class="user_major">${post.writerMajor}</span> </p>
                 
                 <div class="clear"></div>
         	</div>
-        	
-			<input type="hidden" id="post_num" value=${post.postNum}>
+
+        	<c:choose>
+				<c:when test="${memberSid == post.writer}">
+					<form id="post_update_form" enctype="multipart/form-data">
+						<input type="hidden" class="post_num" name="post_num" value=${post.postNum}>
+						
+						<p><input type="text" name="title" class="cpstalk_title" value="${post.title}"
+							style="border:1px solid rgba(228,228,228,1); width:90%">
+						</p>
+						<textarea rows="5" name="content" id="content_textarea" class="cpstalk_text" 
+						style="width:90%; border:1px solid rgba(228,228,228,1); padding:10px;" >${post.content}</textarea>
+						
+						<div id="img_box">
+						<c:choose>
+							<c:when test="${post.imageFile != null}">
+					        	<img src="/resources/upload/post/${post.imageFile}" id="image_view_in_post">
+					        	<img src="" id="image_preview_in_post">
+				        		<input id="del_file" type="button" value="이미지삭제">
+				        		<p><input type="file" name="image_upload" id="upload_image_in_post" style="display:none;"></p>
+				        	</c:when>
+				        	<c:otherwise>
+				        		<img src="" id="image_view_in_post">
+				        		<p><input type="file" name="image_upload" id="upload_image_in_post"></p>
+				        	</c:otherwise>
+		        		</c:choose>
+						</div>
+						
+					</form>
+					<input type="button" id="post_update_btn" class="button_ok" value="수정">
+					<input type="button" id="post_delete_btn"class="button_del" value="삭제">
+				</c:when>
+				
+				<c:otherwise>
+					<input type="hidden" class="post_num" value=${post.postNum}/>
+		        	<p class="cpstalk_title" style="width:85%">${post.title }</p>
+		        	
+		        	<c:if test="${post.imageFile !=null }">
+		        		<img src="/resources/upload/post/${post.imageFile}" style="width:400px;">
+		        	</c:if>
+		        	<p class="cpstalk_text" style="width:85%">${post.content }</p>
+				
+				</c:otherwise>
+			</c:choose>
 			
-        	<p class="cpstalk_title" style="width:85%">${post.title }</p>
         	
-        	<c:if test="${post.imageFile !=null }">
-        		<img src="/resources/upload/post/${post.imageFile}" style="width:400px;">
-        	</c:if>
-        	<p class="cpstalk_text" style="width:85%">${post.content }</p>
-        	</p>
         	
             <div class="info">
                  <span class="time">${post.createdAt} </span>
@@ -40,7 +80,7 @@
             
             	<c:choose>
 					<c:when test="${memberSid != null && memberImage != null}">
-						<p class="user_pic"><img src="/resources/upload/${memberImage}"></p>
+						<p class="user_pic"><img src="/resources/upload/profile/${memberImage}"></p>
 					</c:when>
 					
 					<c:otherwise>
@@ -60,7 +100,7 @@
 								<table class="reply_item_table">
 									<tr style="border: 1px solid blue">
 										<td class="user"><p class="user_pic">
-												<img src="/resources/upload/${cmt.writerImage}">
+												<img src="/resources/upload/profile/${cmt.writerImage}">
 											</p></td>
 										<td class="reply_content">
 											<p class="user_nick">${cmt.writerNick}</p>
@@ -77,5 +117,8 @@
 					</div>
 		</div>
 	</div>
-
+<script>
+	autosize(document.getElementById('content_textarea'));
+	
+</script>
 	
