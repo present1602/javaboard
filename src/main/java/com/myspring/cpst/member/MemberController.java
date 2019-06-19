@@ -60,6 +60,9 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup_view(Model model) {
@@ -67,6 +70,17 @@ public class MemberController {
         
 		return "signup";
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String update_view(Model model, HttpServletRequest request) {
+		System.out.println("member signup view");
+		HttpSession session = request.getSession();
+		int sid = (int) session.getAttribute("memberSid");
+		MemberVO vo = sqlSession.selectOne("selectMemberBySid", sid);
+		model.addAttribute("vo", vo);
+		return "member_update";
+	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login_view(Model model) {
@@ -205,6 +219,68 @@ public class MemberController {
 		return resEnt;
 
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	
+	public ResponseEntity update(Model model, HttpServletRequest request, 
+			@RequestParam("sid") String sid,
+			@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			@RequestParam("nick") String nick,
+			@RequestParam("username") String username,
+			@RequestParam("phone") String phone,
+			@RequestParam("univ") String univ,
+			@RequestParam("major") String major,
+			@RequestParam("profile_image") MultipartFile file
+			) {
+		System.out.println("/signup post");
+		String imgUrl = null;
+		String originFilename = file.getOriginalFilename();
+		Long size = file.getSize();
+		if(file!=null && size != 0) {
+			imgUrl = saveImage(file);
+		}
+		System.out.println("imgUrl : " + imgUrl);
+		Map<String,Object> memberMap = new HashMap<String, Object>();
+		
+		String encryptPassword = passwordEncoder.encode(password);
+		System.out.println("encryptPassword : " + encryptPassword);
+
+		memberMap.put("sid", sid);
+		memberMap.put("email", email);
+		memberMap.put("password", encryptPassword);
+		memberMap.put("nick", nick);
+		memberMap.put("username", username);
+		memberMap.put("phone", phone);
+		memberMap.put("univ", univ);
+		memberMap.put("major", major);
+		memberMap.put("profile_image", imgUrl);
+		
+		String message;
+		ResponseEntity resEnt=null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		int result = memberDAO.updateMember(memberMap);
+		System.out.println("in mbctroller result : " + result);
+		
+		if(result == 1) {
+			MemberVO vo = sqlSession.selectOne("selectMemberBySid", memberMap);
+			HttpSession session = request.getSession();
+			session.setAttribute("memberImage", vo.getProfile_image());
+			session.setAttribute("memberNick", vo.getNick());
+			message = "<script>";
+			message += " alert('회원정보가 수정되었습니다.');";
+			message += " location.href='/board'";
+			message +=" </script>";
+		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		}
+		
+		return resEnt;
+
+	}
+	
 
 	public static String saveImage(MultipartFile file) {
 		String imageUrl = "profile_default2.jpg";

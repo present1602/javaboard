@@ -15,6 +15,15 @@
 		#{username}, #{phone}, #{univ}, #{major}, #{profile_image})
 	</insert>
 	
+	<update id="updateMember" parameterType="java.util.Map">
+		UPDATE CPST_MEMBER SET email = #{email}, password = #{password}, nick = #{nick}, 
+			username = #{username}, phone = #{phone}, univ = #{univ}, major = #{major}
+		 	<if test="profile_image != null">
+			, profile_image = #{profile_image}		 
+		 	</if>
+		WHERE sid = #{sid}
+	</update>
+	
 	<select id="selectMemberBySid" resultType="com.myspring.cpst.member.MemberVO">
 	<![CDATA[
 		select * from cpst_member where sid=#{sid}		

@@ -51,6 +51,12 @@ public class MemberDAO {
 		}
 		return result;
 	}
+
+	public int updateMember(Map<String, Object> memberMap) {
+		int result = 0;
+		result = sqlSession.update("updateMember", memberMap);
+		return result;
+	}
 	
 
 }

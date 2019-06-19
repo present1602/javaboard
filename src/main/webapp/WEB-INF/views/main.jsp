@@ -28,10 +28,13 @@
 							src="/resources/upload/profile/${memberImage}" 
 							style="width:100px; height:100px; border-radius:50px">
 						<p>${memberNick}</p>
-						
-						<p id="logout_button">
+						<p>
+							<a href="/member/update">회원정보수정</a>
+						</p>
+						<p id="logout_button" style="margin-top:10px;">
 							<a href="/member/logout">로그아웃</a>
 						</p>
+						
 
 					</c:when>
 					<c:otherwise>
@@ -279,8 +282,7 @@ $(function(){
 
 
 $(function() {   
-	$(".post_title").click(function(e){
-		
+	$(".post_title").click(function(e){	
 		var parentNode = e.target.parentElement;
 		var postNum = parentNode.getElementsByClassName("post_num")[0].value;
 		$.ajax({
