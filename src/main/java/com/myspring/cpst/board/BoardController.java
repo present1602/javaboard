@@ -91,7 +91,7 @@ public class BoardController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView search(@RequestParam(value="search_text") String searchText) throws Exception {
-		System.out.println("/board/search È£Ãâ");
+		System.out.println("/board/search È£ï¿½ï¿½");
 		System.out.println("searchText : " + searchText);
 		List postlist = boardDAO.postlistBySearch(searchText);
 		List postlist_best = boardDAO.postlist_best();
@@ -127,14 +127,12 @@ public class BoardController {
 			@RequestParam(value="postNum") String postNum, 
 			HttpServletRequest request) throws Exception {
 
-		
 		Map<String,Object> commentMap = new HashMap<String, Object>();
 		
 		commentMap.put("post", postNum);
 		commentMap.put("content", commentContent);
 		
 		int commentNum = getNewCommentNum();
-		
 		commentMap.put("commentNum", commentNum);
 		
 		HttpSession session = request.getSession();
@@ -149,11 +147,6 @@ public class BoardController {
 		CommentVO commentVO = boardDAO.addComment(commentMap);
 	
 		List commentList = boardDAO.commentList((int) Integer.parseInt(postNum));
-		
-//		for (CommentVO vo : commentList) {
-//		    System.out.println(vo.getCommentNum());
-//		    System.out.println(vo.getContent());
-//		}
 		
 		ModelAndView mav = new ModelAndView("comments");
 		mav.addObject("comments", commentList);
@@ -212,7 +205,7 @@ public class BoardController {
 		
 		if(result == 1) {
 			message = "<script>";
-			message += " alert('±ÛÀÌ µî·ÏµÇ¾ú½À´Ï´Ù');";
+			message += " alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÏµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½');";
 			message += " location.href='/board'";
 			message +=" </script>";
 		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -230,31 +223,26 @@ public class BoardController {
 			@RequestParam("content") String content,
 			@RequestParam("image_upload") MultipartFile file
 			) throws Exception {
-		System.out.println("path : /update  in boardController ");
-		
+
 		Map<String,Object> postMap = new HashMap<String, Object>();
 		postMap.put("postNum", Integer.parseInt(post_num));
 		postMap.put("title", title);
 		postMap.put("content", content);
 		
 		String img = null;
-		System.out.println("current postimage from db  : " + img);
 		if(file != null) {
 			img = saveImage(file);
 		}
-		
 		postMap.put("imageFile", img);
-			
+
 		int result = 0;
 		result = boardDAO.updatePost(postMap);
 		
 		String message = "";
-		
 		if(result == 1) {
-			message = "Æ÷½ºÆÃÀÌ ¼öÁ¤µÇ¾ú½À´Ï´Ù";
+			message = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½";
 		}
 		return message;
-		
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/text; charset=utf8")
@@ -267,7 +255,7 @@ public class BoardController {
 		
 		String message = "";
 		if(result == 1) {
-			message = "Æ÷½ºÆÃÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù";
+			message = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½";
 		}
 		return message;
 		
@@ -286,7 +274,7 @@ public class BoardController {
 		result = sqlSession.update("deleteFile", Integer.parseInt(postNum));
 				
 		if(result == 1) {
-			message = "ÀÌ¹ÌÁö°¡ »èÁ¦µÇ¾ú½À´Ï´Ù";
+			message = "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½";
 		}
 		return message;
 		
@@ -303,12 +291,10 @@ public class BoardController {
 		try {
 			String originFilename = file.getOriginalFilename();
 			Long size = file.getSize();
-			System.out.println("originFilename : " + originFilename);
 			UUID uuid = UUID.randomUUID();
 			String saveImageName = uuid + originFilename;
-			System.out.println("size : " + size);
+
 			if(size != 0) {
-				
 				writeFile(file, saveImageName);
 				imageUrl = saveImageName;	
 			}
@@ -321,12 +307,10 @@ public class BoardController {
 	
 	private static void writeFile(MultipartFile file, String saveFileName)
 			throws IOException{
-		
 		byte[] data = file.getBytes();
 		FileOutputStream fos = new FileOutputStream(UPLOAD_REPO + saveFileName);
 		fos.write(data);
 		fos.close();
-	
 	}
 			
 }

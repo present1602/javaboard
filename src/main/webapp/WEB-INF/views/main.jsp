@@ -141,54 +141,7 @@
         <div class="clear"></div>
       </div> <!--메인보드 끝--> 
  
- 
- 
-<style>
 
-#writebox_layer{position:fixed;display:none;width:100%;height:100%;top:0px;left:0px;background:rgba(0,0,0,0.7); z-index:99; position: fixed; margin: 0px auto; }
-
-/**#write_box *{outline:1px solid green} **/
-#write_box{width:650px; overflow-y:scroll; padding:40px; margin:0 auto; margin-top:30px; border:1px solid rgba(242,242,242,1); background:#fff; overflow-y:auto;max-height:calc(80vh)}
-
-.writebox_sub{border:1px solid #e3e3e3; width:100%; border-top:0}
-.writebox_sub .upload_image{text-align:center; width:62px;}
-.writebox_sub .upload_video{text-align:center; width:68px;}
-.writebox_sub #upload_image_button{background-color:rgba(234,234,242,1); border-radius:5px; border:0; padding:3px 12px}
-.writebox_sub #upload_file_button{background-color:rgba(234,234,242,1); border-radius:5px; border:0; padding:3px 12px;}
-.writebox_sub #filename{width:400px; border:1px solid rgba(232,232,232,1);height:20px}
-
-#write_box .write_title{width:100%; height:42px; border:1px solid #e3e3e3; font-size:14px; line-height:50px; color:#333; margin-top:10px; text-indent:13px; box-sizing:border-box;}
-#write_box .write_tag{width:100%; height:42px; border:1px solid #e3e3e3; font-size:14px; line-height:50px; color:#333; margin-top:15px; margin-bottom:10px; text-indent:13px; box-sizing:border-box;}
-
-#write_box .write_content{display:block; width:100%; height:240px; border:1px solid #e3e3e3; font-size:13px; line-height:22px; color:#333; margin-top:10px; padding:13px; box-sizing:border-box;}
-
-#write_box .write_file{position:relative; padding-left:95px; margin-top:20px;}
-#write_box .write_file h3{width:75px; font-size:15px; line-height:15px; color:#333; padding-left:20px; position:absolute; top:0; left:0;}
-#write_box .write_button{margin-top:30px; text-align:center;}
-/*.write_box .write_btn .btn_ok{width:135px; height:40px; background-color:#064984; font-size:16px; color:#fff; font-weight:bold; text-align:center; border-radius:40px; border:0 none; margin:0 3px; cursor:pointer;}
-.write_box .write_btn .btn_cancel{width:135px; height:40px; background-color:#4c4c4c; font-size:16px; color:#fff; font-weight:bold; text-align:center; border-radius:40px; border:0 none; margin:0 3px; cursor:pointer;}
-*/
-
-.button_ok{width:90px; height:34px; background-color:rgba(65,128,255,1); font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
-.button_del{width:90px; height:34px; background-color:#4c4c4c; font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
-
-#write_box .write_button .button_modify{width:90px; height:34px; background-color:rgba(65,128,255,1); font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
-#write_box .write_button .button_cancel{width:90px; height:34px; background-color:#ccc; font-size:13px; color:#fff; font-weight:bold; text-align:center; border:0 none; margin:0 3px; cursor:pointer;}
-
-.in_writebox .toptag_item{}
-.in_writebox .taglist_item{}
-
-.write_content_box textarea{border:0; resize:none;}
-.writebox_top{width:100%; display:table; height:50px;}
-
-#write_box .write_file{position:relative; padding-left:95px; margin-top:20px;}
-#write_box .write_file h3{width:75px; font-size:15px; line-height:15px; color:#333; padding-left:20px; position:absolute; top:0; left:0;}
-#write_box .write_button{margin-top:30px; text-align:center;}
-
-
-#preview_image_box img{max-width:120px; max-height:120px; padding:10px;}
-
-</style> 
 
 <div id="writebox_layer">
     <div id="write_box">
@@ -321,9 +274,7 @@ $(function() {
 	            	alert(JSON.stringify(err));
 	            }
 		})
-		
 	});
-	
 });
 
 function delete_file(postNum){
@@ -361,7 +312,6 @@ function update_post(){
 	});
 }
 
-
 function delete_post(postNum){
 	$.ajax({
 	    url:'/board/delete'
@@ -379,44 +329,22 @@ function delete_post(postNum){
 	});
 }
 
-
 function handleComment(){
 	$("#reply_button").click(function(e){
-		
 		$.ajax({
 			url:'/board/write_comment'
 			,type:"post"
 			,data: {postNum : $("#post_num").val(),
 				commentContent : $("#commentContent").val(),}
 			,success:function(data){
-				console.log("cmt ajax suc");
 				$("#reply_wrap").html(data);
-				
-			/* 	console.log("data : " );
-				var parseData = JSON.parse(data);
-				console.log("p cont : " + parseData.content);
-				console.log("p created : " + parseData.createdAt);
-				console.log("p nick : "  + parseData.writerNick);
-				var echoComment = "<li>";
-				
-				var echoComment += "</li>"; */
-				
-/*             				var parseData = JSON.parse(data);
-				alert("parseData.content : " + parseData.content)
-*/
-					/* var cont = parseData.content;
-				var nick =parseData.writerNick;
-				var image = parseData.writerImage;
-				var createdAt = parseData.createdAt;
-				alert("cont : " + cont + ", nick : " + nick + ", create : " + createdAt); */
 			}
 			,error:function(err){
 				alert("ajax err");
 				alert(JSON.stringify(err));
 			}
-		}); 
+		});
 	});
-	
 }
 
 
@@ -427,3 +355,4 @@ function handleComment(){
 
 </body>
 </html>
+

@@ -102,16 +102,18 @@ public class MemberController {
 			
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		 
 		MemberVO vo = memberDAO.login(email);
 		
 		ModelAndView mav = new ModelAndView("main");
+		Boolean authUser = false;
 		if(vo != null) {
 			boolean passMatch = passwordEncoder.matches(password, vo.getPassword());
 			if(passMatch == true) {
+				authUser = true;
 				HttpSession session = request.getSession();
 				
 				session.setAttribute("memberSid", vo.getSid());
@@ -121,7 +123,8 @@ public class MemberController {
 				mav.setViewName("redirect:/board");
 			}
 		}
-		
+		mav.setViewName("login");
+		mav.addObject("msg", "ê³„ì • ì •ë³´ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤");
 		return mav;
 	}
 		
@@ -186,7 +189,6 @@ public class MemberController {
 		String encryptPassword = passwordEncoder.encode(password);
 		System.out.println("encryptPassword : " + encryptPassword);
 
-
 		memberMap.put("email", email);
 		memberMap.put("password", encryptPassword);
 		memberMap.put("nick", nick);
@@ -196,25 +198,21 @@ public class MemberController {
 		memberMap.put("major", major);
 		memberMap.put("profile_image", imgUrl);
 		
-		
 		String message;
 		ResponseEntity resEnt=null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		
 		
 		int result = memberDAO.insertMember(memberMap);
 		System.out.println("in mbctroller result : " + result);
 		
 		if(result == 1) {
 			message = "<script>";
-			message += " alert('È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.');";
+			message += " alert('íšŒå ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¹ë¤„ì˜™í“¸å ì™ì˜™å ì™ì˜™æ±‚å ï¿½.');";
 			message += " location.href='login'";
 			message +=" </script>";
 		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 		}
-		
-
 		
 		return resEnt;
 
@@ -271,7 +269,7 @@ public class MemberController {
 			session.setAttribute("memberImage", vo.getProfile_image());
 			session.setAttribute("memberNick", vo.getNick());
 			message = "<script>";
-			message += " alert('È¸¿øÁ¤º¸°¡ ¼öÁ¤µÇ¾ú½À´Ï´Ù.');";
+			message += " alert('íšŒå ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹¤ì–µì˜™å ì™ì˜™å ì‹¹ëŒì˜™.');";
 			message += " location.href='/board'";
 			message +=" </script>";
 		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -298,8 +296,8 @@ public class MemberController {
 			}
 			
 		}catch (Exception e) {
-			// ¿ø·¡¶ó¸é RuntimeException À» »ó¼Ó¹ŞÀº ¿¹¿Ü°¡ Ã³¸®µÇ¾î¾ß ÇÏÁö¸¸
-			// ÆíÀÇ»ó RuntimeExceptionÀ» ´øÁø´Ù.
+			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½ RuntimeException å ì™ì˜™ å ì™ì˜™é”å ì™ì˜™å ï¿½ å ì™ì˜™å ìŒ¤ê³¤ì˜™ ì²˜å ì™ì˜™å ì‹¤ì–µì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+			// å ì™ì˜™å ì‹¤ì‚¼ì˜™ RuntimeExceptionå ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™.
 			// throw new FileUploadException();	
 			throw new RuntimeException(e);
 		}

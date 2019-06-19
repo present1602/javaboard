@@ -18,10 +18,8 @@ public class MemberDAO {
 	private SqlSession sqlSession;
 
 	public MemberVO login(String email) throws DataAccessException {
-		  MemberVO vo = sqlSession.selectOne("selectMemberByEmail", email);
-		  System.out.println("in MDAO em : " + vo.getEmail());
-		  System.out.println("pw : " + vo.getPassword());
-		  System.out.println("un : " + vo.getUsername());
+		MemberVO vo = sqlSession.selectOne("selectMemberByEmail", email);
+		  
 		return vo;
 	}
 

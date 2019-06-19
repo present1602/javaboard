@@ -27,12 +27,19 @@
  --> 
  
 <div id="login_layerbox">
+
 	<p class="logo">CAMPUS TALK</p>
 	<h2 style="margin:15px 0">로그인</h2>
+	
 	<form method="post">
 		<p><input type="text" id="login" name="email" value="em@naver.com"></p>
  		<p><input type="password" id="password" name="password" value="1234"></p>
  		<p><input type="submit" id="dologin" value="확인"></p>
+ 		
+ 		<c:if test="${msg!=null}">
+			<p style="color:red; font-size: 13px; margin-top: 15px; ">${msg}</p>
+		</c:if>
+		
 	   	<p id="to_signup">아직 회원이 아니신가요?<a href="/member/signup">회원가입</a></p>
    	</form>
 </div>

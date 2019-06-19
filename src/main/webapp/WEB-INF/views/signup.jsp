@@ -89,7 +89,7 @@
     	$("#emailInput").focusout(function(e){
     		var emailText = e.target.value;
     		$("#checkEmailMsg").html("");
-    		/* alert("fs emailText : " + emailText); */
+
     		$.ajax({
     			url : "/member/emailCheck?text=" + emailText,
     			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
